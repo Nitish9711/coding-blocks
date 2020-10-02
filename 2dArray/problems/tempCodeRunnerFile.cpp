@@ -1,0 +1,1 @@
+cout<<input[11]<<endl;

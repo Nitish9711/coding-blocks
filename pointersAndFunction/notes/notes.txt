@@ -1,0 +1,7 @@
+how to pass function as a parameter
+
+data_type function-name(int a, data_type(&any_varaible)(its arguments));
+
+calling of function
+
+function name(actual paramter, function name);

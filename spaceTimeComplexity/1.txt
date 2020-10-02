@@ -1,0 +1,12 @@
+bubble sort- o(n^2)
+merge_sort - O(nlogn)
+quick_sort - O(nlogn) / best case
+worst case = O(n^2)  / worst case
+
+
+binary_search = log2(n)
+
+fibonacci - O(2^n) /recursion
+
+
+

@@ -1,0 +1,2 @@
+1. max_element use
+2. accumualte function

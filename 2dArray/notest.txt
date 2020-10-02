@@ -1,0 +1,52 @@
+sort function in this starting point is included and the ending point is not included
+- sort(starting point, ending point, compareFunction )
+
+passing function as a parameter into another function
+
+syntax
+datatype function(parameter1, parameter2, datatype-function (&function-name)(parameter3 , parameter4))
+
+string tokenizer
+
+char* strtok(char*str, char* delimiter)
+
+it breaks the string into tokens
+
+//vectors
+
+when the vectors becomes full it size will automatically grow and become twice of it
+pushback() - add elements  at the end
+popback() - del elements  at the end
+reserve() - to reserve a particular amount of memory
+
+
+stacks are the linear data structure in which the varaible and other data types are stored in the form of stack frame
+heap is big pool of memory which is used for dyanamic memory allocation
+
+if we are not able to allocate memory in the heap then we get an exception in std::bad_alloc
+whenever we try to allocate memory during runtime then it will use some area of heap and store address in stack
+
+using stack is faster than heap
+
+syntak for dyanamic memory allocation
+
+
+
+datatype* var = int datatype(default value)
+
+datatype* var = int datatype
+
+datatype* var = int datatype[size]
+
+
+2d array dyanamic allocation
+
+int** arr = new int*[no of rows]
+
+for(int i =0;i<no_of_rows;i++)
+{
+    arr[i] = new int [no_of_col];
+}
+
+
+compartor function puts first element if true and second if false
