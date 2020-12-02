@@ -11,11 +11,7 @@ class node{
         prev = NULL;
         next = NULL;
     }
-    node(int d){
-        data = d;
-        prev = NULL;
-        next = NULL;
-    }   
+      
 };
 
 class doublyLinkedList{
@@ -26,9 +22,8 @@ class doublyLinkedList{
         doublyLinkedList();
         ~doublyLinkedList();
         
-        void insertAtHead();
-        void insertAtback();
-        void insert
+        void insert(int d);
+        
         void print();
 
 };
@@ -39,12 +34,15 @@ doublyLinkedList:: doublyLinkedList(){
     tail->prev = head;
 }
 
-doublyLinkedList:: ~doublyLinkedList(){
+void doublyLinkedList:: insert(int d){
+    if(head == NULL){
+        head ->data = d;
+    }
 
 }
-doublyLinkedList::insertAtHead(){
 
-}
+
+
 
 
 int main(){

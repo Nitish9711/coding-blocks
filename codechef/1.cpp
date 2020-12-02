@@ -1,39 +1,34 @@
 #include<iostream>
-#include<cmath>
-
+#include<vector>
 using namespace std;
 #define ll long int
 
 int main(){
-    int t;
-    cin>>t;
+  int t;
+  cin>>t;
 
-    while(t--){
-        ll n;
-        ll k;
-        cin>>n>>k;
-        ll rem = 0;
-        ll ans = k;
-        bool flag = false;
-        ll *ar = new ll[n];
-        for(int i=0;i<n;i++){
-            cin>>ar[i];
-            rem += ar[i];
-            if(rem < k && flag == false){
-                flag = true;
-                ans = i+1;
-            }
-            else
-            {
-                rem = rem-k;
-            }            
-        }
-        
-        if(flag == false)
-            ans = n + ceil((rem+1)/(double)k);
-
-                
-        cout<<ans<<endl;
+  while(t--){
+    ll n, m;
+    cin>>n>>m;
+    ll *ar = new ll[n];
+    ll sum = 0;
+    for(ll i =0;i<n;i++)
+    {
+        cin>>ar[i];
+        sum+= ar[i];
     }
-    return 0;
+    if(sum == m)
+      cout<<"YES"<<endl;
+    else
+    {
+      cout<<"NO"<<endl;
+    }
+    
+    
+    
+
+    
+
+  }
+  return 0;
 }

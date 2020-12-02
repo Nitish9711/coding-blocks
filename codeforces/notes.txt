@@ -1,2 +1,2 @@
-1. max_element use
-2. accumualte function
+Number of digits in a^b  = 1 + b*log(a)
+
