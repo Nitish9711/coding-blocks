@@ -46,7 +46,7 @@ node* merge(node * a, node * b){
     {
         c = b;
         c->next = merge(a, b->next);
-    }a
+    }
 
     return c;
 }

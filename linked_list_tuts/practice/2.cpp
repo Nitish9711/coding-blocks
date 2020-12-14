@@ -1,45 +1,47 @@
-#include<iostream>
-
+#include <iostream>
 using namespace std;
 
 class node{
     public:
     int data;
-    node*next;
+    node *next;
+    
     node(int d){
-        data  = d;
+        data = d;
         next = NULL;
     }
 };
 
-void insert(node*&head, int data){
-    
-
+void insert(node *&head, int data){
     node *n = new node(data);
-    node*temp = head;
-
+    node *temp = head;
     n->next = head;
-
-    if(temp!= NULL)
-    {
-        while(temp->next!=head){
+    if(temp!=NULL){
+        while(temp->next != head){
             temp = temp->next;
         }
         temp->next = n;
+
     }
-    else
-    {
+    else{
         n->next = n;
     }
-    
-
     head = n;
 }
+void print(node*head){
+    
+    node*temp = head;
+    while(temp->next != head){
+        cout<<temp->data<<" ->";
+        temp = temp->next;
+    }
+    cout<<temp->data<<" ->";
+    cout<<endl;
+    return ;
+}
 
-// deletion in ciruclar linked list
-node*getnode(node*&head, int data){
-
-    node*temp =head;
+node *getnode(node *head, int data){
+   node*temp =head;
     while(temp->next!=head)
     {
         if(temp->data == data)
@@ -54,26 +56,9 @@ node*getnode(node*&head, int data){
 
     return NULL;
 }
-node*getnode2(node*&head, int data){
 
-    node*temp =head;
-    while(temp->next!=head)
-    {
-        if(temp->data == data)
-            return temp;
-
-        temp = temp->next;
-    }
-    // for last node
-    if(temp->data == data){
-        return temp;
-    }
-
-    return NULL;
-}
-void deleteNode(node*&head,int data ){
-
-    node *del = getnode(head, data);
+void deleteNode(node*&head, int data){
+ node *del = getnode(head, data);
     if(del == NULL){
         cout<<"node not present"<<endl;
         return;
@@ -91,22 +76,18 @@ void deleteNode(node*&head,int data ){
     delete del;
     
 
+
 }
-
-
-
-
 int main()
 {
-    node*head = NULL;
-    insert(head, 1);
-    insert(head, 2);
-    insert(head, 3);
-    insert(head, 4);
+    node *head = NULL;
     insert(head, 5);
-    // print(head);
-   
-    // deleteNode(head, 3);
-    // print(head);
+    insert(head, 2);
+    insert(head, 1);
+    insert(head, 3);
+    print(head);
+    deleteNode(head, 5);
+    deleteNode(head, 3);
+    print(head);
     return 0;
 }

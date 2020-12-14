@@ -27,6 +27,7 @@ void push_back(node*&head, int d){
 
 void k_end(node*head, int k){
    node*slow =head;
+   
    node*fast= head;
    while(k > 1){
        fast = fast ->next;
