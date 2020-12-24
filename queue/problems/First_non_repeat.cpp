@@ -3,10 +3,6 @@
 
 using namespace std;
 
-void output(queue<char> , int fre[] ){
-
-}
-
 int main(){
     queue<char>q;
     int fre[27]={0} ;

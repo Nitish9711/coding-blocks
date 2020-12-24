@@ -50,8 +50,7 @@ class queue{
             if(!empty())
              return arr[f];
              
-             cout<<"queue is empty "<<endl;
-             return 0;
+            return 0;
         }
         ~queue(){
             if(arr!= NULL)

@@ -63,10 +63,10 @@ bool check(node*head){
     }
     // cout<<temp->data<<endl;
     node*rev= NULL;
-    if(len%2 == 0)
+    // if(len%2 == 0)
        rev = reverse(temp);
-    else
-       rev = reverse(temp);
+    // else
+    //    rev = reverse(temp);
 
     // print(rev);
     // cout<<endl;

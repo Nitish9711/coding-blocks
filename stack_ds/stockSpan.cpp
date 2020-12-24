@@ -1,47 +1,55 @@
-#include<iostream>
+#include <iostream>
 #include<stack>
-
 using namespace std;
 
 
-void stock(int price[], int n, int span[]){
+void display(stack<int>s){
+    while(!s.empty()){
+        cout<<s.top()<<" ";
+        s.pop();
+    }
+}
+
+
+void calculateSpan(int price[], int n, int output[]){
+
     stack<int>s;
-    s.push(0);
-    span[0]  = 1;
-    for(int i =1;i<=n-1;i++){
-        
+    output[0] = 1;
+
+    for(int i =0;i<n;i++){
         int cp = price[i];
 
-        while(!s.empty() and price[s.top()] <= cp){
+        while(!s.empty() and price[s.top()] <=cp) {
             s.pop();
         }
 
         if(!s.empty()){
         int prev_highest = s.top();
-        span[i] = i - prev_highest;
+        output[i] = i - prev_highest;
         }
-        else
-        {
-            span[i] = i+1;
+        else{
+            output[i] = i+1;
         }
 
         s.push(i);
 
-        
     }
+
+
 }
 
 
-int main(){
+int main()
+{
+   int price[] = { 10, 4, 5, 90, 120, 80 }; 
+   int n = sizeof(price) / sizeof(price[0]); 
 
-    int prices[] = {100, 80, 60, 70,60, 75, 185};
-    int n = sizeof(prices)/sizeof(int);
-    int span[100000] = {0};
+   int output[10000] = {0};
 
-    stock(prices, n, span);
+   calculateSpan(price, n,output);
+
     for(int i=0;i<n;i++){
-        cout<<span[i]<<" ";
+        cout<<output[i]<<endl;
     }
-    
     return 0;
 }
