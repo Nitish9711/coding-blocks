@@ -38,19 +38,20 @@ void reverse(stack<int> &s){
 
 int main(){
 
-    stack<int>s;
-    s.push(1);
-    s.push(2);
-    s.push(3);
-    s.push(4);
-
+   stack<int >s;
+    int n;
+    cin>>n;
+    int d;
+    
+    for(int i=0;i<n;i++){
+        cin>>d;
+        s.push(d);
+    }
     reverse(s);
-    while(!s.empty()){
+     while(!s.empty()){
         cout<<s.top()<<" ";
         s.pop();
     }
-    
-    
 
     return 0;
 }
