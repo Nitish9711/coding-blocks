@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
 #define null NULL
 
 class node
@@ -19,7 +20,6 @@ public:
 
 node *buildTree()
 {
-
     int d;
     cin >> d;
 
@@ -32,71 +32,62 @@ node *buildTree()
     return root;
 }
 
-// preorder
-void print(node *root)
+void preorder(node *&root)
 {
     if (root == null)
         return;
 
     cout << root->data << " ";
-    print(root->left);
-    print(root->right);
+    preorder(root->left);
+    preorder(root->right);
 }
-
-// inorder
-void in_print(node *root)
+void inorder(node *root)
 {
     if (root == null)
         return;
 
-    in_print(root->left);
+    inorder(root->left);
     cout << root->data << " ";
-    in_print(root->right);
+    inorder(root->right);
 }
-
-// post order
-void post_print(node *root)
+void postorder(node *root)
 {
     if (root == null)
         return;
 
-    post_print(root->left);
-    post_print(root->right);
+    postorder(root->left);
+    postorder(root->right);
     cout << root->data << " ";
 }
 
 int height(node *root)
 {
-    if (root == NULL)
-    {
+    if (root == null)
         return 0;
-    }
+
     int ls = height(root->left);
     int rs = height(root->right);
-
     return max(ls, rs) + 1;
 }
+
+// levelwise print
+// time complexity  worst Case - o(n^2);
 
 void printKthLevel(node *root, int k)
 {
     if (root == null)
-    {
         return;
-    }
 
     if (k == 1)
-    {
         cout << root->data << " ";
-    }
 
     printKthLevel(root->left, k - 1);
     printKthLevel(root->right, k - 1);
 }
-
-// time complexity  worst Case - o(n^2);
-void print_all_level(node *root)
+void level_wise(node *root)
 {
     int h = height(root);
+
     for (int i = 1; i <= h; i++)
     {
         printKthLevel(root, i);
@@ -104,8 +95,7 @@ void print_all_level(node *root)
     }
 }
 
-// bfs traversal
-void bfs(node *root)
+void bfs_other(node *root)
 {
     queue<node *> q;
     q.push(root);
@@ -120,14 +110,14 @@ void bfs(node *root)
         if (f->right)
             q.push(f->right);
     }
-    return;
 }
 
-void bfs_other(node *root)
+void bfs(node *root)
 {
     queue<node *> q;
     q.push(root);
     q.push(null);
+
     while (!q.empty())
     {
         node *f = q.front();
@@ -136,9 +126,7 @@ void bfs_other(node *root)
             cout << endl;
             q.pop();
             if (!q.empty())
-            {
                 q.push(null);
-            }
         }
         else
         {
@@ -150,17 +138,14 @@ void bfs_other(node *root)
                 q.push(f->right);
         }
     }
-    return;
 }
 
-// count nodes
 int count(node *root)
 {
     if (root == null)
         return 0;
     return count(root->left) + count(root->right) + 1;
 }
-// sum of nodes
 int sum(node *root)
 {
     if (root == null)
@@ -170,6 +155,7 @@ int sum(node *root)
 
 int diameter(node *root)
 {
+
     if (root == null)
         return 0;
 
@@ -180,30 +166,32 @@ int diameter(node *root)
     int op2 = diameter(root->left);
     int op3 = diameter(root->right);
 
-    return max(op1, max(op1, op2));
+    return max(op1, max(op2, op3));
 }
 
-// class Pair{
-//     public:
-//         int height;
-//         int diameter;
-// };
+class DPair
+{
+public:
+    int height;
+    int diameter;
+};
+DPair optimized_diameter(node *root)
+{
 
-// Pair diameter_optimized(node*root){
-//     Pair p;
-//     if(root==null){
-//         p.diameter = p.height = 0;
-//         return p;
-//     }
+    DPair p;
+    if (root == null)
+    {
+        p.height = p.diameter = 0;
+        return p;
+    }
 
-//     Pair left = diameter_optimized(root->left);
-//     Pair right = diameter_optimized(root->right);
+    DPair left = optimized_diameter(root->left);
+    DPair right = optimized_diameter(root->right);
 
-//     p.height = max(left.height, right.height) + 1;
-//     p.diameter = max(left.height + right.height, max(left.diameter, right.diameter));
-
-//     return p;
-// }
+    p.height = max(left.height, right.height) + 1;
+    p.diameter = max(left.height + right.height, max(left.diameter, right.diameter));
+    return p;
+}
 
 // replace_nodes_with_sum_of_child_nodes
 
@@ -229,7 +217,7 @@ public:
     bool balance;
 };
 
-HBPair isHeightBalance(node *root)
+HBPair isHBT(node *root)
 {
     HBPair p;
     if (root == null)
@@ -239,15 +227,14 @@ HBPair isHeightBalance(node *root)
         return p;
     }
 
-    HBPair left = isHeightBalance(root->left);
-    HBPair right = isHeightBalance(root->right);
+    HBPair left = isHBT(root->left);
+    HBPair right = isHBT(root->right);
 
     p.height = max(left.height, right.height) + 1;
 
     if (abs(left.height - right.height) <= 1 && left.balance && right.balance)
-    {
         p.balance = true;
-    }
+
     else
     {
         p.balance = false;
@@ -256,23 +243,25 @@ HBPair isHeightBalance(node *root)
     return p;
 }
 
-// build a height balanced tree
-node *buildTreeFromArray(int *a, int s, int e)
+node *buildHBT(int *ar, int s, int e)
 {
     if (s > e)
+    {
         return null;
+    }
 
     int mid = (s + e) / 2;
-    node *root = new node(a[mid]);
-    root->left = buildTreeFromArray(a, s, mid - 1);
-    root->right = buildTreeFromArray(a, mid + 1, e);
-
+    node *root = new node(ar[mid]);
+    root->left = buildHBT(ar, s, mid - 1);
+    root->right = buildHBT(ar, mid + 1, e);
     return root;
 }
 
 //  if we are given only pre order and inorder then binary tree will be unique
-node *createTreeFromTrav(int *in, int *pre, int s, int e)
+
+node *buildFromOrder(int *in, int *pre, int s, int e)
 {
+
     static int i = 0;
     if (s > e)
     {
@@ -281,7 +270,6 @@ node *createTreeFromTrav(int *in, int *pre, int s, int e)
 
     node *root = new node(pre[i]);
     int index = -1;
-
     for (int j = s; j <= e; j++)
     {
         if (in[j] == pre[i])
@@ -291,62 +279,50 @@ node *createTreeFromTrav(int *in, int *pre, int s, int e)
         }
     }
     i++;
-    root->left = createTreeFromTrav(in, pre, s, index - 1);
-    root->right = createTreeFromTrav(in, pre, index + 1, e);
-
+    root->left = buildFromOrder(in, pre, s, index - 1);
+    root->right = buildFromOrder(in, pre, index + 1, e);
     return root;
 }
 
 // right view of binary tree
-void printRightView(node *root, int level, int &max_level)
+void rightView(node *root, int level, int &maxLevel)
 {
-
     if (root == null)
         return;
 
-    if (max_level < level)
+    if (maxLevel < level)
     {
         cout << root->data << endl;
-        max_level = level;
+        maxLevel = level;
     }
 
-    // right
-    printRightView(root->right, level + 1, max_level);
-    // left
-    printRightView(root->left, level + 1, max_level);
+    rightView(root->right, level + 1, maxLevel);
+    rightView(root->left, level + 1, maxLevel);
 }
-// left view of binary tree
-void printleftView(node *root, int level, int &max_level)
+void leftView(node *root, int level, int &maxLevel)
 {
-
     if (root == null)
         return;
 
-    // cout<<"max level "<<max_level<<" level "<< level<<endl;
-    if (max_level < level)
+    if (maxLevel < level)
     {
         cout << root->data << endl;
-        max_level = level;
+        maxLevel = level;
     }
 
-    printleftView(root->left, level + 1, max_level);
-    // right
-    printleftView(root->right, level + 1, max_level);
-    // left
+    leftView(root->left, level + 1, maxLevel);
+    leftView(root->right, level + 1, maxLevel);
 }
 
-// binary tree at k distance from given target node
-
+// binary tree at k distance from given target node  not able to solve
 void printAtLevelK(node *root, int k)
 {
     if (root == null)
-    {
         return;
-    }
 
     if (k == 0)
     {
-        cout << root->data << " ";
+        cout << root->data << endl;
         return;
     }
 
@@ -354,38 +330,29 @@ void printAtLevelK(node *root, int k)
     printAtLevelK(root->right, k - 1);
     return;
 }
-
 int printAtDistanceK(node *root, node *target, int k)
 {
-
     if (root == null)
-    {
         return -1;
-    }
 
     if (root == target)
     {
-        printAtLevelK(target, k);
+        printAtLevelK(root, k);
         return 0;
     }
 
-    // ancestors
     int dl = printAtDistanceK(root->left, target, k);
     if (dl != -1)
     {
-        // ancestor itself or go to right of ancestors
-
         if (dl + 1 == k)
         {
-            cout << root->data << " ";
+            cout << root->data << endl;
         }
         else
         {
             printAtLevelK(root->right, k - 2 - dl);
         }
-        return dl + 1;
     }
-
     int dr = printAtDistanceK(root->right, target, k);
     if (dr != -1)
     {
@@ -402,34 +369,35 @@ int printAtDistanceK(node *root, node *target, int k)
     return -1;
 }
 
+
+
 // find the lowest common ancestor of given nodes
-node *lca(node *root, int a, int b)
-{
-    if (root == null)
+node *lca(node *root, int a, int b){
+    if(root == null)
         return null;
 
-    if (root->data == a || root->data == b)
+    if(root->data == a || root->data == b)
         return root;
 
     node *leftans = lca(root->left, a, b);
     node *rightans = lca(root->right, a, b);
 
-    if (leftans != null and rightans != null)
-    {
+    if(leftans!= null and rightans != null){
         return root;
     }
-
+    
     if (leftans != null)
     {
         return leftans;
     }
 
     return rightans;
+
 }
 
+
 // max sum path from any node to any node  difficult one
-class Pair
-{
+class Pair{
 public:
     int branchSum;
     int maxSum;
@@ -439,15 +407,12 @@ public:
         maxSum = 0;
     }
 };
-
-Pair maxSumPath(node *root)
-{
+Pair maxSumPath(node *root){
     Pair p;
     if (root == null)
     {
         return p;
     }
-
     Pair left = maxSumPath(root->left);
     Pair right = maxSumPath(root->right);
 
@@ -457,107 +422,111 @@ Pair maxSumPath(node *root)
     int op3 = right.branchSum + root->data;
     int op4 = left.branchSum + right.branchSum + root->data;
 
-    int current_ans_through_root = max(op1, max(op2, max(op3, op4)));
 
-    // branch sum of the current root
-    p.branchSum = max(left.branchSum, max(right.branchSum, 0)) + root->data;
-    p.maxSum = max(left.maxSum, max(right.maxSum, current_ans_through_root));
+    int current_ans_thorugh_root = max(op1, max(op2, max(op3, op4)));
+
+
+    p.branchSum = max(left.branchSum, max(right.branchSum, 0))  + root->data;
+    p.maxSum = max(left.maxSum, max(right.maxSum, current_ans_thorugh_root));
+
     return p;
+
+
 }
 
 // shortest distance between 2 nodes
 // finding the level of given level
-int search(node *root, int key, int level)
-{
-    if (root == null)
-    {
-        return -1;
-    }
 
-    if (root->data == key)
-    {
+int search(node *root, int key, int level){
+
+    if(root == null)
+        return -1;
+
+    if(root->data == key){
         return level;
     }
 
-    int left = search(root->left, key, level + 1);
+    int left = search(root->left, key, level+1);
 
-    if (left != -1)
+    if(left =-1){
         return left;
+    }
 
     return search(root->right, key, level + 1);
 }
 
-int findDistance(node *root, int a, int b)
-{
+int findDistance(node *root, int a, int b){
+    node *lcanode = lca(root, a, b);
 
-    node *lca_node = lca(root, a, b);
-    int l1 = search(lca_node, a, 0);
-
-    int l2 = search(lca_node, b, 0);
+    int l1 = search(lcanode, a, 0);
+    int l2 = search(lcanode, b, 0);
 
     return l1 + l2;
 }
 
+
 int main()
 {
+    // node *root = buildTree();
 
-    node *root = buildTree();
-    // print(root);
+    // preorder(root);
     // cout << endl;
-    // in_print(root);
+    // inorder(root);
     // cout << endl;
-    // post_print(root);
+    // postorder(root);
     // cout << endl;
+
     // cout << height(root) << endl;
-    // int h = height(root);
-    // print_all_level(root);
+
+    // level_wise(root);
+
     // bfs(root);
-    // cout << endl;
-    bfs_other(root);
+
     // cout<<count(root)<<endl;
     // cout<<sum(root)<<endl;
     // cout<<diameter(root)<<endl;
-    // Pair p = diameter_optimized(root);
+
+    // DPair p = optimized_diameter(root);
     // cout<<p.height<<endl;
     // cout<<p.diameter<<endl;
-    // replaceNodeWithSum(root);
-    // bfs_other(root);
 
-    // if(isHeightBalance(root).balance)
-    //     cout<<"true"<<endl;
+    // replaceNodeWithSum(root);
+    // bfs(root);
+
+    // HBPair p = isHBT(root);
+    // if(p.balance)
+    //     cout<<"balance"<<endl;
     // else{
-    //     cout<<"false"<<endl;
+    //     cout<<"not balanced"<<endl;
     // }
 
     // int a[]  = {1, 2, 3, 4,5 ,6, 7};
     // int n = 7;
-    // node*root = buildTreeFromArray(a, 0, 6);
-    // bfs_other(root);
+    // node*root = buildHBT(a, 0, 6);
+    // bfs(root);
 
-    // int in[] = {3,2,8, 4, 1, 6, 7 , 5};
-    // int pre[] = {1,2,3,4,8, 5,6,7};
-    // int n = sizeof(in)/sizeof(int);
+    // HBPair p = isHBT(root);
+    // if(p.balance)
+    //     cout<<"balance"<<endl;
+    // else{
+    //     cout<<"not balanced"<<endl;
+    // }
 
-    // node *root =createTreeFromTrav(in, pre, 0, n-1);
-    // bfs_other(root);
+    int in[] = {1, 10, 9, 6, 7, 8, 3, 13, 14};
+    int pre[] = {8, 10, 1, 6, 9, 7, 3, 14, 13};
+    int n = sizeof(in) / sizeof(int);
 
+    node *root = buildFromOrder(in, pre, 0, n - 1);
+    bfs(root);
     // int max_level = -1;
-    // printRightView(root, 0, max_level);
-    // printleftView(root, 0, max_level);
+    // // rightView(root, 0, max_level);
+    // leftView(root, 0, max_level);
 
-    // node *root = null;
-    // node*target = root->left->left;
-    // cout<<root<<endl;
-    // int k;
-    // cin>>k;
-    // printAtDistanceK(root, target, k);
-
-    // cout<<lca(root, 6, 9)->data<<endl;
-
-    // cout<<maxSumPath(root).maxSum<<endl;
-
-    cout << findDistance(root, 4, 7) << endl;
-    cout << findDistance(root, 6, 9) << endl;
+    node *target = root->left->right;
+    cout << root << endl;
+    int k;
+    cin >> k;
+    printAtDistanceK(root, target, k);
 
     return 0;
 }

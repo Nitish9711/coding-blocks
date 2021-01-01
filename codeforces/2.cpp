@@ -1,6 +1,14 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long int
+#define ll long long
+#define null NULL
+
+ll solve(string s)
+{
+    ll ans = 0;
+
+    return ans;
+}
 
 int main()
 {
@@ -8,37 +16,35 @@ int main()
     cin >> t;
     while (t--)
     {
-       ll n;
-       cin>>n;
-       ll *ar = new ll [n];
-       ll *b = new ll [n];
-       ll sum = 0;
-
-       for(ll i =0;i<n;i++){
-           cin>>ar[i];
-           sum+= ar[i];
-       }
-    
-        ll i = 0;
-        while(i<n){
-            if(ar[i]%ar[i+1] ==  || ar[i+1]%ar[i] == 0){
-                i = i + 2;
-                
-            }
-            else{
-                
-            }
-
-
-
+        string s;
+        cin >> s;
+        ll fre[27] = {0};
+        ll n = s.length();
+        if (n <= 2)
+        {
+            cout << "0" << endl;
         }
-        for(ll i =0;i<n;i++){
-            cout<<ar[i]<<" ";
+        else
+        {
+            for (ll i = 0; i < n; i++)
+            {
+                fre[s[i] - 96]++;
+            }
+            ll ans = 0;
+            for (int i = 1; i <= 26; i++)
+            {
+                if(fre[i]%2 == 0 && fre[i]!=0){
+                    n = fre[i] - fre[i]/2; 
+                    ans += fre[i]/2;
+                }   
+                if(fre[i]%3 == 0 && fre[i]!= 0)
+                {
+                    n = n-fre[i]/3;
+                    ans += fre[i]/3;
+                }
+            }
+            cout<<ans<<endl;
         }
-       
-
-      
-       cout<<endl;
     }
     return 0;
 }

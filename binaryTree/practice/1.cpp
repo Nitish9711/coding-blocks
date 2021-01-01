@@ -132,7 +132,7 @@ void bfs_other(node *root)
     {
         node *f = q.front();
         if (f == null)
-        {
+        {           
             cout << endl;
             q.pop();
             if (!q.empty())
@@ -180,27 +180,27 @@ int diameter(node*root){
     return max(op1, max(op1, op2));
 }
 
-class Pair{
-    public:
-        int height;
-        int diameter;
-};
+// class Pair{
+//     public:
+//         int height;
+//         int diameter;
+// };
 
-Pair diameter_optimized(node*root){
-    Pair p;
-    if(root==null){
-        p.diameter = p.height = 0;
-        return p;
-    }
+// Pair diameter_optimized(node*root){
+//     Pair p;
+//     if(root==null){
+//         p.diameter = p.height = 0;
+//         return p;
+//     }
 
-    Pair left = diameter_optimized(root->left);
-    Pair right = diameter_optimized(root->right);
+//     Pair left = diameter_optimized(root->left);
+//     Pair right = diameter_optimized(root->right);
 
-    p.height = max(left.height, right.height) + 1;
-    p.diameter = max(left.height + right.height, max(left.diameter, right.diameter));
+//     p.height = max(left.height, right.height) + 1;
+//     p.diameter = max(left.height + right.height, max(left.diameter, right.diameter));
 
-    return p;
-}
+//     return p;
+// }
 
 
 // replace_nodes_with_sum_of_child_nodes
@@ -292,10 +292,196 @@ node *createTreeFromTrav(int *in, int * pre,int s, int e ){
 }
 
 
+// right view of binary tree
+void printRightView(node *root, int level, int &max_level){
+    
+    if(root == null)
+        return;
+    
+    if(max_level <level){
+        cout<<root->data<<endl;
+        max_level = level;
+    }
+
+    // right 
+    printRightView(root->right, level+1, max_level);
+    // left
+    printRightView(root->left, level+1, max_level);
+
+}
+// left view of binary tree
+void printleftView(node *root, int level, int &max_level){
+    
+    if(root == null)
+        return;
+    
+    // cout<<"max level "<<max_level<<" level "<< level<<endl; 
+    if(max_level <level){
+        cout<<root->data<<endl;
+        max_level = level;
+    }
+
+    printleftView(root->left, level+1, max_level);
+    // right 
+    printleftView(root->right, level+1, max_level);
+    // left
+
+}
+
+
+// binary tree at k distance from given target node
+
+void printAtLevelK(node*root, int k){
+    if(root == null){
+        return;
+    }
+
+    if(k == 0){
+        cout<<root->data<<" ";
+        return;
+    }
+
+    printAtLevelK(root->left, k-1);
+    printAtLevelK(root->right, k-1);
+    return;
+}
+
+
+int printAtDistanceK(node *root, node*target, int k ){
+
+    if(root == null){
+        return -1;
+    }
+
+    if(root == target){
+        printAtLevelK(target, k);
+        return 0;
+    }  
+
+    // ancestors
+    int dl = printAtDistanceK(root->left, target, k);
+    if(dl!=-1){
+        // ancestor itself or go to right of ancestors
+
+        if(dl+1 == k){
+            cout<<root->data<<" ";
+        }
+        else{
+            printAtLevelK(root->right, k-2 - dl);
+        }
+        return dl+1;
+    }
+
+    int dr = printAtDistanceK(root->right, target, k);
+    if(dr!=-1){
+        if(dr+1 == k){
+            cout<<root->data<<" ";
+        }
+        else{
+            printAtLevelK(root->right, k-2 - dr);
+        }
+        return dr+1;
+
+    }
+    return -1;
+}
+
+
+// find the lowest common ancestor of given nodes
+node *lca (node *root, int a, int b){
+    if(root == null)
+        return null;
+
+    if(root ->data  == a || root->data == b)
+        return root;
+
+    node *leftans = lca(root->left, a, b);
+    node *rightans = lca(root->right, a, b);
+
+    if(leftans != null and rightans !=null){
+        return root;
+    }
+
+    if(leftans != null){
+        return leftans;
+    }
+
+    return rightans;
+
+}
+
+// max sum path from any node to any node  difficult one
+class Pair{
+    public:
+    int branchSum;
+    int maxSum ;
+    Pair(){
+        branchSum = 0;
+        maxSum = 0;
+    }
+};
+
+Pair maxSumPath(node *root){
+    Pair p;
+    if(root == null){
+        return p;
+    }
+
+    Pair left = maxSumPath(root->left);
+    Pair right = maxSumPath(root->right);
+
+    // construct value;
+    int op1 = root->data;
+    int op2 = left.branchSum + root->data;
+    int op3 = right.branchSum + root->data;
+    int op4 = left.branchSum + right.branchSum + root->data;
+
+    int current_ans_through_root = max(op1, max(op2, max(op3, op4)));
+
+    // branch sum of the current root
+    p.branchSum = max(left.branchSum, max(right.branchSum, 0)) + root->data;
+    p.maxSum = max(left.maxSum , max(right.maxSum, current_ans_through_root));
+    return p;
+
+}
+
+// shortest distance between 2 nodes
+// finding the level of given level
+int search(node *root, int key, int level){
+    if(root == null){
+        return -1;
+    }
+
+    if(root->data == key){
+        return level;
+    }
+
+    int left = search(root->left, key, level+1);
+
+    if(left!= -1)
+        return left;
+
+    return search(root->right, key, level+1);
+}
+
+
+int findDistance(node *root, int a, int b){
+
+    node *lca_node = lca(root, a, b);
+    int l1 = search(lca_node, a, 0);
+
+    int l2 = search(lca_node, b, 0);
+
+    return l1 + l2;
+}
+
+
+
+
 int main()
 {
 
-    // node *root = buildTree();
+    node *root = buildTree();
     // print(root);
     // cout << endl;
     // in_print(root);
@@ -307,7 +493,7 @@ int main()
     // print_all_level(root);
     // bfs(root);
     // cout << endl;
-    // bfs_other(root);
+    bfs_other(root);
     // cout<<count(root)<<endl;
     // cout<<sum(root)<<endl;
     // cout<<diameter(root)<<endl;
@@ -330,12 +516,30 @@ int main()
     // bfs_other(root);
 
 
-    int in[] = {3,2,8, 4, 1, 6, 7 , 5};
-    int pre[] = {1,2,3,4,8, 5,6,7};
-    int n = sizeof(in)/sizeof(int);
+    // int in[] = {3,2,8, 4, 1, 6, 7 , 5};
+    // int pre[] = {1,2,3,4,8, 5,6,7};
+    // int n = sizeof(in)/sizeof(int);
 
-    node *root =createTreeFromTrav(in, pre, 0, n-1);
-    bfs_other(root);
+    // node *root =createTreeFromTrav(in, pre, 0, n-1);
+    // bfs_other(root);
+
+    // int max_level = -1;
+    // printRightView(root, 0, max_level);
+    // printleftView(root, 0, max_level);
+
+    // node *root = null;
+    // node*target = root->left->left;
+    // cout<<root<<endl;
+    // int k;
+    // cin>>k;
+    // printAtDistanceK(root, target, k);
+
+    // cout<<lca(root, 6, 9)->data<<endl;
+
+    // cout<<maxSumPath(root).maxSum<<endl;
+
+    cout<<findDistance(root, 4, 7)<<endl;
+    cout<<findDistance(root, 6, 9)<<endl;
 
     return 0;
 }
