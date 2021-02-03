@@ -3,45 +3,48 @@ using namespace std;
 #define ll long long 
 #define null NULL
 
-bool check(string s, string p, int n){
-    if(s == p)
-        return true;
-    
-    int s_ones =0;
-    int p_ones =0;
-    for(int i=0;i<n;i++){
-        if(s[i] == '1'){
-            s_ones++;
-        }
-        if(p[i] == '1'){
-            p_ones++;
-        }
-    }
-    if(s_ones != p_ones)
-        return false;
-    
-    return true;
-    
-}
+
+
+
+ 
 
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
+	int t;
+	cin >> t;
+	ll P[11];
+    P[0] = 1;
+    for(ll i = 1; i <= 10; i++) 
     {
-       int n;
-       cin>>n;
-       string s,p;
-       cin>>s>>p;
-       if(check(s, p, n)){
-           cout<<"Yes"<<endl;
-       }
-       else
-       {
-           cout<<"No"<<endl;
-       }
-       
+        P[i] = 10*P[i-1];
     }
-    return 0;
+
+	while (t--)
+	{
+	  ll n;
+	  cin>>n;
+	  if(n<10){
+		  cout<<n<<endl;
+		  continue;
+	  }
+	  ll m = n;
+	  ll x = n;
+	  ll d =0;
+	  ll y = 0;
+	  while(x > 0)
+	  {
+		  x = x/10;
+		  d++;
+	  }
+
+	  for(ll i =0;i<d;i++){
+		  y = n/P[i+1];
+		  y *= P[i];
+		  y += n%P[i];
+		m = min(m, y);
+	  }
+	  cout<<m<<endl;
+	  
+	}
+	return 0;
 }

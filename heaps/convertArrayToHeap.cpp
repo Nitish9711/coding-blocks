@@ -28,7 +28,7 @@ bool compare(int a, int b)
     if (minHeap)
         return a < b;
 
-    return b > a;
+    return a > b;
 }
 void heapify(vector<int> &v, int idx)
 {
@@ -79,7 +79,7 @@ int main()
     print(v);
     buildHeap(v);
     print(v);
-    optimizedBuildHeap(v);
-    print(v);
+  // optimizedBuildHeap(v);
+    // print(v);
     return 0;
 }

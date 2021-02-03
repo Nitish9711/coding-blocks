@@ -1,69 +1,34 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
+#define ll long long 
 #define null NULL
 
-bool check(string str, int n)
-{
 
-    if(n%2 != 0){
-        return false;
-    }
-    if (str[0] == ')' || str[n - 1] == '(')
-        return false;
 
-    stack<char> s;
-    int i = 0;
-    while (i < n)
-    {
-        if (str[i] == '(' || str[i] == '?')
-        {
-            s.push(str[i]);
-        }
-        else
-        {
-            if (s.empty())
-            {
-                return false;
-            }
-
-            else
-            {
-                s.pop();
-            }
-        }
-        i++;
-    }
-
-    while (!s.empty())
-    {
-        if(s.top()!= '?')
-            return false;
-        s.pop();
-    }
-    
-    return true;
-}
-
+bool isPerfectSquare(int x) 
+{ 
+    int s = sqrt(x); 
+    return (s*s == x); 
+} 
+ 
+bool isFibonacci(int n) 
+{  
+    return isPerfectSquare(5*n*n + 4) || isPerfectSquare(5*n*n - 4); 
+} 
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        string s;
-        cin >> s;
-        int n = s.length();
+	int n;
+	cin>>n;
+	
 
-        if (check(s, n))
-        {
-            cout << "YES" << endl;
-        }
-        else
-        {
+	for(int i =1;i<=n;i++){
+		if(isFibonacci(i)){
+			cout<<"O";
+		}
+		else{
+			cout<<"o";
+		}
+	}
 
-            cout << "NO" << endl;
-        }
-    }
-    return 0;
+	return 0;
 }

@@ -1,57 +1,60 @@
-#include <iostream>
-#include<queue>
-
+#include <bits/stdc++.h>
 using namespace std;
 #define ll long long 
 #define null NULL
+#define node pair<ll, pair<ll, ll>> 
 
-#define node  pair<int, pair<int, int>>
 
+void mergeArray(vector<vector<ll>>v, ll n,ll k){
 
-vector<int>mergeKSortedArrays(vector<vector<int>>arr){
+    vector<ll>result;
 
-    vector<int>result;
-    priority_queue<node, vector<node>, greater<node>> pq;
-
-    for(int i=0;i<arr.size(); i++){
-        node p = make_pair(arr[i][0], make_pair(i, 0));
+    priority_queue<node, vector<node>, greater<node>>pq;
+    for(ll i =0;i<v.size();i++){
+        node p = make_pair(v[i][0] , make_pair(i, 0));
         pq.push(p);
-        // cout<<pq.top().first<<endl;
     }
-
-  
 
     while (!pq.empty())
     {
         node current = pq.top();
         pq.pop();
-        int element = current.first;
-        int x = current.second.first;
-        int y = current.second.second;
-        result.push_back(element);
-        // cout<<*result.begin()<<endl;
+        ll ele = current.first;
+        ll x = current.second.first;
+        ll y = current.second.second;
 
-        if(y+1 <arr[x].size()){
-            node p = make_pair(arr[x][y+1], make_pair(x, y+1));
+        result.push_back(ele);
+
+        if(y+1 < v[x].size()){
+            node p = make_pair(v[x][y+1], make_pair(x, y+1));
             pq.push(p);
         }
-    }
 
-    return result;
+    }
+    
+
+
+
+     for(int x: result){
+         cout<<x<<" ";
+     }
 
 
 }
-
 int main()
 {
-    vector<vector<int>> arr {{2, 6, 12, 15}, {1, 3, 14, 20}, {3, 5, 8, 10}};
-
-
-    vector<int>output=  mergeKSortedArrays(arr);
-    for(auto x: output){
-        cout<< x<<" ";
+    int k,n;
+    cin>>k>>n;
+    vector<vector<ll>>arr(k,vector<ll>(n));//Storing k sorted arrays in a 2d vector
+    for(int i=0;i<k;i++)
+    {
+        for(int j=0;j<n;j++)
+        cin>>arr[i][j];
     }
 
+    // cout<<" ds"<<endl;
 
+    mergeArray(arr, n, k);
+   
     return 0;
 }

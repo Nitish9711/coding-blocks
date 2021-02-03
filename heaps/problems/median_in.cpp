@@ -1,80 +1,72 @@
-#include <iostream>
-#include <queue>
+// Making it clear, when the input size is odd, we take the middle element of sorted data. 
+// If the input size is even, we pick average of middle two elements in sorted stream.
+
+// Note that output is effective median of integers read from the stream so far. 
+// Such an algorithm is called online algorithm.
+//  Any algorithm that can guarantee output of i-elements after processing i-th element,
+//   is said to be online algorithm. Let us discuss three solutions for the above problem.
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define null NULL
+int main() {
+    int testCases ; 
+    cin >> testCases ; 
+    while(testCases--){
+        long n ;
+        long median ;
+        priority_queue<long , vector<long> , greater<long> > minHeap ; 
+        priority_queue<long> maxHeap ; 
+        int minSize = 0 ;
+        int maxSize = 0 ;
+        int size ;
+        cin >> size ;
 
-int main()
-{
-    priority_queue<int> leftheap;                             //maxheap
-    priority_queue<int, vector<int>, greater<int>> rightheap; //min heap
+        median = 0;
+        while(size--){
 
-    int d;
-    cin>>d;
+            cin >> n;
 
-    leftheap.push(d);
-
-    float med = d;
-    cout << "median " << med << endl;
-
-    cin>>d;
-
-    while (d != -1)
-    {
-
-        if (leftheap.size() > rightheap.size())
-        {
-            if (d < med)
-            {
-                rightheap.push(leftheap.top());
-                leftheap.pop();
-                leftheap.push(d);
+            if(n < median){
+                maxHeap.push(n);
+                maxSize ++ ; 
             }
-            else
-            {
-                rightheap.push(d);
+            else {
+                minHeap.push(n);
+                minSize ++ ; 
+            }
+            if(abs(minSize - maxSize) == 2){
+                //Imbalance
+                if(minSize > maxSize){
+                    long temp = minHeap.top() ; 
+                    minHeap.pop() ; 
+                    minSize -- ;
+                    maxHeap.push(temp);
+                    maxSize ++ ; 
+                }
+                else {
+                    long temp = maxHeap.top();
+                    maxHeap.pop(); 
+                    maxSize--;
+                    minHeap.push(temp);
+                    minSize++;
+                }
             }
 
-            med = (leftheap.top() + rightheap.top()) / 2.0;
+            //Recalculate median after every iteration
+            if(minSize == maxSize){
+                median = ( minHeap.top() + maxHeap.top() )/ 2 ;
+            }
+            else if(minSize > maxSize){
+                median = minHeap.top() ;
+            }
+            else {
+                median = maxHeap.top() ;
+            }
+
+            cout << median << " ";
         }
-        else if (leftheap.size() == rightheap.size())
-        {
-
-            if (d < med)
-            {
-                leftheap.push(d);
-                med = leftheap.top();
-            }
-            else
-            {
-                rightheap.push(d);
-                med = rightheap.top();
-            }
-        }
-
-        else
-        {
-            if (d > med)
-            {
-                leftheap.push(rightheap.top());
-                rightheap.pop();
-                rightheap.push(d);
-            }
-            else
-            {
-                leftheap.push(d);
-            }
-            med = (leftheap.top() + rightheap.top()) / 2.0;     
-        }
-
-
-    cout << "med " << med << endl;
-    cin >> d;
-
-
+        cout << endl;
     }
 
-   
 
-    return 0;
+    return 0;    
 }
