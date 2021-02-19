@@ -1,50 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long 
+#define ll unsigned long long 
 #define null NULL
-
-
-
-
- 
 
 int main()
 {
-	int t;
-	cin >> t;
-	ll P[11];
-    P[0] = 1;
-    for(ll i = 1; i <= 10; i++) 
+    int t;
+    cin >> t;
+    // ll ar[10001];
+    // for(int i =0;i<=10000;i++){
+    //     ar[i]  = i*i*i;
+    // }
+    while (t--)
     {
-        P[i] = 10*P[i-1];
+        ll x;
+        cin>>x;
+        ll n = ceil( cbrt(x));
+        bool flag = false;
+        for(int i = 1;i<n;i++){
+            for(int j = 1;j<n;j++){
+                if(x %(i +j) == 0){
+                    if(x %(i*i + j*j - i*j)==0){
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            if(flag == true){
+                break;
+            }
+        }
+        if(flag){
+            cout<<"YES"<<endl;
+        }
+        else{
+            cout<<"NO"<<endl;
+        }
+       
     }
-
-	while (t--)
-	{
-	  ll n;
-	  cin>>n;
-	  if(n<10){
-		  cout<<n<<endl;
-		  continue;
-	  }
-	  ll m = n;
-	  ll x = n;
-	  ll d =0;
-	  ll y = 0;
-	  while(x > 0)
-	  {
-		  x = x/10;
-		  d++;
-	  }
-
-	  for(ll i =0;i<d;i++){
-		  y = n/P[i+1];
-		  y *= P[i];
-		  y += n%P[i];
-		m = min(m, y);
-	  }
-	  cout<<m<<endl;
-	  
-	}
-	return 0;
+    return 0;
 }

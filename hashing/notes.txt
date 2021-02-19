@@ -1,0 +1,52 @@
+why hash table
+1. insert delete and search in average case constant time
+order of elements is irrelevant
+
+
+key  components
+1. hash function
+2.hash table
+3. collision handling scheme
+
+
+collisions can not be avoided but its chances can be reduced by a good function.
+A good hash function
+1. reduced the chance of collision - distribute keys uniformly over table
+2. shoudl be fast to compute
+
+example  of hash function
+
+h(key) = key%tableSize;
+but if tableSize = 100 and keys is multiple of 10;
+better if tableSize is a primeNumber;
+
+anagram strings - same strings with same number of characters and same type of characters.
+
+
+
+collisions handling scheme
+1. open hashing - separate chaining
+2. closed hashing - open addressing
+    a. linear probing
+   b. quadratic probing
+
+3. double hashing
+
+
+separate chaining
+
+implented using linked list
+key is stored in list at T([h(k)])
+tableSize = 10
+h(k) = k mod 10
+insert first 10 squares
+
+
+load_factor = current_size/tableSize;
+if(load_factor > threshold value){
+    increase tableSize
+
+}
+rehasing O(n)
+
+

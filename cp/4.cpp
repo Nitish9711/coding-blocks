@@ -3,32 +3,46 @@ using namespace std;
 #define ll long long 
 #define null NULL
 
+int different(vector<char>a, vector<char>b){
+    unordered_set<char>us;
+    for(auto x: a){
+        us.insert(x);
+    }
+    for(auto x: b){
+         us.insert(x);
+    }
+    return us.size();
+}
 
-
-bool isPerfectSquare(int x) 
-{ 
-    int s = sqrt(x); 
-    return (s*s == x); 
-} 
- 
-bool isFibonacci(int n) 
-{  
-    return isPerfectSquare(5*n*n + 4) || isPerfectSquare(5*n*n - 4); 
-} 
 int main()
 {
-	int n;
-	cin>>n;
-	
+    int t;
+    cin >> t;
+    while (t--)
+    {
+       int n;
+       cin>>n;
+       int ans = 0;
+       unordered_map<string, vector<char>>um;
+       unordered_set<string>v;
+        string str;
+        for(int i =0;i<n;i++){
+         cin>>str;
+            string s = str.substr(1);
+            um[s].push_back(str[0]);
+            v.insert(s);
+         }
 
-	for(int i =1;i<=n;i++){
-		if(isFibonacci(i)){
-			cout<<"O";
-		}
-		else{
-			cout<<"o";
-		}
-	}
-
-	return 0;
+         for(auto x =v.begin();x!= v.end();x++){
+             auto y  = x;
+             ++y;
+			for(;y != v.end();y++){
+                int temp = different(um[*x], um[*y]);
+                ans += (temp - um[*x].size()) * (temp - um[*y].size());
+            }
+			 
+         }
+         cout<<ans*2<<endl;
+    }
+    return 0;
 }

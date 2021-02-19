@@ -35,35 +35,46 @@ int main()
             continue;
 
        }
-ll j = 0;
 
-        while(k>1){
-            for(ll i =j;i<n-1;i++){
-                if(ar[i]  < ar[i+1]){
-                    p.push_back(i+1);
-                    ar[i]++;
-                    if(i==0)
-                         j ==0;
-                    else
-                         j = i-1;
-                    break;
-                }
-            }
-            k--;
-        }
+        ll ans = 0;
         bool flag = true;
-         for(ll i =j;i<n-1;i++){
-                if(ar[i]  < ar[i+1]){
-                    p.push_back(i+1);
+        ll i =0;
+        while (i<n-1 )
+        {
+            if(ar[i] < ar[i+1]){
+                ll d = ar[i+1] - ar[i];
+                if( d >= k){
+                    k = 0;
+                    ans = i+1;
                     flag = false;
-                    ar[i]++;
                     break;
                 }
+                else{
+                  k = k-d;
+                }
+
+                ar[i] += d;
+                if(i!= 0)
+                    i--;
+                else{
+                    i=0;
+                }
+                if(k == 0){
+                   ans = i+1;
+                    break;
+                }
+            }      
+            else{
+                i++;
             }
+        }
+
+       
+       
         if(flag == true)
             cout<<"-1"<<endl;
         else
-            cout<<p[k-1]<<endl;
+            cout<<ans<<endl;
         
 
        
