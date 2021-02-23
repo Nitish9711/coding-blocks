@@ -1,0 +1,16 @@
+those who can't remember their past are condemned to repeat it.
+
+where to apply dp??
+
+1. optimal substructure
+2. overlapping subProblems
+
+
+
+ways to apply dp
+1. top down approach - (recursion + memorization)
+2. bottom up approach - iteration  + memorization
+
+
+
+
