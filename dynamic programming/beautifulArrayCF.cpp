@@ -5,14 +5,12 @@ using namespace std;
 
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
-    {
-       ll n;
-       cin>>n;
-       
-
-    }
+   ll n, x;
+   cin>>n>>x;
+   ll ar[100];
+   for(ll i =0;i<n;i++){
+       cin>>ar[i];
+   }
+   
     return 0;
 }

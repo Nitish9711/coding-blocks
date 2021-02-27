@@ -1,37 +1,42 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include<vector>
+#include<utility>
 using namespace std;
 #define ll long long 
 #define null NULL
 
+int answer(string a, string b, int m, int n){
+    int dp[m+1][n+1];
 
-ll answer(ll n, ll x, ll y, ll z){
-    ll dp[n+1] = {0};
+    for(int i =0;i<=m;i++){
+        for(int j = 0;j<=n;j++){
+            if(i == 0 || j == 0){
+                dp[i][j] =0;
+            }
+            else if(a[i-1]== b[j-1]){
+                dp[i][j] = dp[i-1][j-1] + 1;
+            }
+            else{
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
 
-    ll i =1;
-    dp[1] = 0;
-
-    for(int i =2;i<=n+1;i++){
-        if(i%2 == 0){
-            dp[i] = min(dp[i/2] + x, dp[i-1] + y);
+            }
         }
-        else{
-            dp[i] = min(dp[i-1] + y, dp[(i+1)/2]+ x + z );
-        }
-
     }
-    return dp[n];
+
+
 }
+
+
+
 
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
-    {
-       ll n;
-       cin>>n;
-       ll x, y, z;
-       cout<<answer(n, x, y, z)<<endl;
-    }
+    string a, b;
+    cin>>a>>b;
+    int n1 = a.length();
+    int n2 = b.length();
+    vector<vector<int>>dp(n1, vector<int>(n2, -1));
+
+    
     return 0;
 }

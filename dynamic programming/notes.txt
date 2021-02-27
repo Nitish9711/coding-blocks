@@ -13,4 +13,12 @@ ways to apply dp
 
 
 
+Given two strings , what could be the best complexity that you can solve in , the K-ordered LCS of the given strings ?
+
+A k-ordered LCS is defined to be the LCS of two sequences if you are allowed to change at most k elements in the first sequence to any value you wish to.
+
+Defining N and M as the length of the given strings respectively.
+
+O(NklogM)
+
 

@@ -1,9 +1,11 @@
 {
     "C_Cpp.errorSquiggles": "Enabled",
     "files.associations": {
+        "*.sql": "sql",
         "cmath": "cpp",
         "ostream": "cpp",
         "numeric": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "new": "cpp"
     }
 }
