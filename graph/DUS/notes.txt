@@ -1,0 +1,6 @@
+DUS (DISJOINT UNION SET)/UNION
+find element - find in which set element is present.
+UNION - merge two sets into one
+
+
+1. 

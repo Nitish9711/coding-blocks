@@ -1,0 +1,28 @@
+number of edges a node can have in a graph
+max e : nC2 -> o(n2)
+min E: n-1 edges(tree)
+
+ways to represent graph
+1. adjancey matrix
+2. edges and list 
+V = {0, 1, 2, 3}
+E = [(0,1)(0, 2)(0, 3) (1, 2) ....]
+3. adjancey list
+0->1,2
+1->2
+2->1, 3
+...
+
+4. implicit graph
+2d matrix
+
+
+
+=> distance from source to dest in unweighted graph can be calucluated with bfs
+snakes and ladders leetcode
+
+dfs forest - group of connected graphs
+
+
+dijkistra 
+priority queue has not the option to update so we use set for storing distance;
