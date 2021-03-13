@@ -16,18 +16,41 @@ int main()
     cin >> t;
     while (t--)
     {
-        ll n;
-        cin>>n;
-        vector<ll>ar;
-        ar.push_back(0);
-        ll d;
-        for(ll i =0;i<n;i++){
-            cin>>d;
-            ar.push_back(d);
+        ll r, c,x;
+        cin>>r>>c>>x;
+        ll d,v;
+
+        vector<vector<ll>>ar;
+        vector<vector<ll>>br;
+        for(ll i=0;i<r;i++){
+            for(ll j = 0;j<c;j++){
+                cin>>d;
+                ar[i].push_back(d);
+            }
         }
-
-
-        
+        for(ll i=0;i<r;i++){
+            for(ll j = 0;j<c;j++){
+                cin>>d;
+                br[i].push_back(d);
+            }
+        }
+        for(ll i=0;i<r;i++){
+            for(ll j =0;j<=c-x;j++){
+                if(ar[i][j] == br[i][j])
+                    continue;
+                ll v = br[i][j] - ar[i][j];
+                ll k = j, temp = x;
+                while(temp--){
+                    ar[i][j] += v;
+                }
+            }
+            for(ll j = c-x+1;j<c;j++){
+                ll v = br[i][j] - ar[i][j];
+                
+                
+            }
+        }
+       
     }
     return 0;
 }
