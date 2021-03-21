@@ -1,7 +1,6 @@
-2 is located  at a dist of 6
-7 is located  at a dist of 0
-5 is located  at a dist of 3
-6 is located  at a dist of 2
-1 is located  at a dist of 5
-3 is located  at a dist of 4
-4 is located  at a dist of 7
+Node 0 Dist from src 0
+Node 1 Dist from src 1
+Node 2 Dist from src 2
+Node 3 Dist from src 1
+Node 4 Dist from src 2
+Node 5 Dist from src 3

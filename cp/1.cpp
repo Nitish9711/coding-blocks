@@ -1,56 +1,75 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<cmath>
 using namespace std;
-#define ll long long 
-#define null NULL
 
-void ReadCP(){
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
+double get_need_k(int d, vector<double> &delta)
+{
+	double sum = 0;
+	for (int i = 0; i < delta.size(); i++)
+	{
+		sum += ceil(delta[i] / d) - 1;
+	}
+	return sum;
 }
+
+int solve(int k, vector<int> &minutes)
+{
+	vector<double> delta(minutes.size() - 1, 0);
+	int max_delta = 0;
+	for (int i = 1; i < minutes.size(); i++)
+	{
+		delta[i - 1] = minutes[i] - minutes[i - 1];
+		max_delta = delta[i - 1] > max_delta ? delta[i - 1] : max_delta;
+	}
+
+	int l = 1, r = max_delta, m;
+	while (l < r)
+	{
+		m = (l + r) / 2;
+		double k1 = get_need_k(m, delta);
+		if (k1 <= k)
+		{
+			r = m;
+		} 
+		else
+		{
+			l = m + 1;
+		}
+	}
+	return r;
+}
+
 int main()
 {
-    ReadCP();
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        ll r, c,x;
-        cin>>r>>c>>x;
-        ll d,v;
+	//freopen("1.txt", "r", stdin);
+	int T;
+	cin >> T;
+	for (int i = 1; i <= T; i++)
+	{
+		int a, b;
+		cin>>a>>b;
+		int n;
+		cin>>n;
+		string str;
+		// int mid = (a + b)/2;
+		int s = a+1;
+		int mid;
+		int e = b;
+		for(int i = 0;i<n;i++){
+			mid = (s + e)/2;
+			cout<<mid<<endl;
+			cin>>str;
+			if(str == "TOO_SMALL"){
+				s = mid+1;
+			}
+			else if (str == "CORRECT"){
+				break;
+			}
+			else if(str == "TOO_BIG"){
+				s = mid-1;
+			}
 
-        vector<vector<ll>>ar;
-        vector<vector<ll>>br;
-        for(ll i=0;i<r;i++){
-            for(ll j = 0;j<c;j++){
-                cin>>d;
-                ar[i].push_back(d);
-            }
-        }
-        for(ll i=0;i<r;i++){
-            for(ll j = 0;j<c;j++){
-                cin>>d;
-                br[i].push_back(d);
-            }
-        }
-        for(ll i=0;i<r;i++){
-            for(ll j =0;j<=c-x;j++){
-                if(ar[i][j] == br[i][j])
-                    continue;
-                ll v = br[i][j] - ar[i][j];
-                ll k = j, temp = x;
-                while(temp--){
-                    ar[i][j] += v;
-                }
-            }
-            for(ll j = c-x+1;j<c;j++){
-                ll v = br[i][j] - ar[i][j];
-                
-                
-            }
-        }
-       
-    }
-    return 0;
+		}
+	}
 }
