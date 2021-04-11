@@ -1,3 +1,14 @@
+An Efficient Solution is to observe the pattern. Only those numbers, which are perfect Squares have an odd number of factors. Let us analyze this pattern through an example.
+
+For example, 9 has odd number of factors, 1, 3 and 9. 16 also has odd n
+umber of factors, 1, 2, 4, 8, 16. The reason for this is, 
+for numbers other than perfect squares, all factors are in the form of pairs, 
+but for perfect squares, one factor is single and makes the total as odd.
 
 
-1. 
+
+1 .https://www.geeksforgeeks.org/fast-io-for-competitive-programming/
+    https://www.geeksforgeeks.org/endl-vs-n-in-cpp/
+
+2.
+

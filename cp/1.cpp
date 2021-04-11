@@ -1,75 +1,95 @@
-#include<iostream>
-#include<vector>
-#include<cmath>
+#include <bits/stdc++.h>
 using namespace std;
+#define ll long long
+#define null NULL
+#define vi vector<int>
+#define vl vector<ll>
+#define moi map<int, int>
+#define umoi unordered_map<int, int>
+#define mol map<ll, ll>
+#define umol unordered_map<ll, ll>
+#define pi pair<int, int>
+#define pl pair<ll, ll>
+#define psi pair<string, int>
+#define pis pair<int, string>
 
-double get_need_k(int d, vector<double> &delta)
+void ReadCP()
 {
-	double sum = 0;
-	for (int i = 0; i < delta.size(); i++)
-	{
-		sum += ceil(delta[i] / d) - 1;
-	}
-	return sum;
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+#endif
 }
-
-int solve(int k, vector<int> &minutes)
-{
-	vector<double> delta(minutes.size() - 1, 0);
-	int max_delta = 0;
-	for (int i = 1; i < minutes.size(); i++)
-	{
-		delta[i - 1] = minutes[i] - minutes[i - 1];
-		max_delta = delta[i - 1] > max_delta ? delta[i - 1] : max_delta;
-	}
-
-	int l = 1, r = max_delta, m;
-	while (l < r)
-	{
-		m = (l + r) / 2;
-		double k1 = get_need_k(m, delta);
-		if (k1 <= k)
-		{
-			r = m;
-		} 
-		else
-		{
-			l = m + 1;
-		}
-	}
-	return r;
-}
-
 int main()
 {
-	//freopen("1.txt", "r", stdin);
-	int T;
-	cin >> T;
-	for (int i = 1; i <= T; i++)
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	ReadCP();
+	int t;
+	cin >> t;
+	while (t--)
 	{
-		int a, b;
-		cin>>a>>b;
 		int n;
-		cin>>n;
-		string str;
-		// int mid = (a + b)/2;
-		int s = a+1;
-		int mid;
-		int e = b;
-		for(int i = 0;i<n;i++){
-			mid = (s + e)/2;
-			cout<<mid<<endl;
-			cin>>str;
-			if(str == "TOO_SMALL"){
-				s = mid+1;
-			}
-			else if (str == "CORRECT"){
-				break;
-			}
-			else if(str == "TOO_BIG"){
-				s = mid-1;
-			}
+		cin >> n;
+		int d;
+		int fre[101]={0};
+		string ar[400];
+		int ans = 0;
+		pi p1, p2;
+		int x1, x2, y1, y2;
+		int cnt = 0;
+		for(int i =0;i<n;i++){
+			cin>>ar[i];
+			// cout<<ar[i]<<endl;
+			for(int j = 0;j<n;j++){
+				// cin>>ar[i][j];
+				if(ar[i][j] == '*'){
+					cnt++;
+					if(cnt == 1){
+						x1 = i;
+						y1 = j;
+					}
+					else{
+						x2  = i;
+						y2  = j;
+					}
 
+				}
+
+			}
 		}
+
+		if(y2 == y1){
+			if(y1+1<n){
+				ar[x1][y1+1]='*';
+				ar[x2][y1+1] = '*';
+			}
+			else{
+				ar[x1][y1-1]= '*';
+				ar[x2][y1-1] = '*';
+			}
+		}	
+		else if(x1 == x2){
+			if(x1+1<n){
+				ar[x1+1][y1]= '*';
+				ar[x1+1][y2] = '*';
+			}
+			else{
+				ar[x1-1][y1] = '*';
+				ar[x2-1][y2] = '*';
+			}
+		}
+		else{
+			ar[x2][y1] = '*';
+			ar[x1][y2] = '*';
+		}
+		for(int i =0;i<n;i++){
+			for(int j =0;j<n;j++){
+				cout<<ar[i][j];
+			}
+			cout<<endl;
+		}
+
 	}
+	return 0;
 }

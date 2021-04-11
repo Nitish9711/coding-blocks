@@ -71,9 +71,9 @@ public:
         }
     }
 
-    int pairing()
+    bool contain_cycle()
     {
-        int *parent = new int[V];
+        int *parent = new int[V + 1];
         int *rank = new int[V];
 
         for (int i = 0; i < V; i++)
@@ -82,23 +82,24 @@ public:
             rank[i] = 1;
         }
 
-        int ans = 0;
         for (auto edge : l)
         {
             int s1 = findSet(edge.first, parent);
             int s2 = findSet(edge.second, parent);
 
-            union_set(s1, s2, parent, rank);
-           
-        }
-
-        for(int i = 0;i<V;i++){
-            ans += V- rank[findSet(i, parent)];
+            if (s1 != s2)
+            {
+                union_set(s1, s2, parent, rank);
+            }
+            else
+            {
+                return true;
+            }
         }
 
         delete[] parent;
         delete[] rank;
-        return ans/2;
+        return false;
     }
 };
 
@@ -107,16 +108,11 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     // ReadCP();
-    
-    int n, m;
-    cin>>n>>m;
-    Graph g(n);
-    for(int i =0;i<m;i++){
-        int x, y;
-        cin>>x>>y;
-        g.addEdge(x, y);
-    }
-    cout<<g.pairing()<<endl;
-
+    Graph g(4);
+    g.addEdge(0, 1);
+    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+    // g.addEdge(3, 0);
+    cout << g.contain_cycle() << endl;
     return 0;
 }

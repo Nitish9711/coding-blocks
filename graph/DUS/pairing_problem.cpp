@@ -73,7 +73,7 @@ public:
 
     int pairing()
     {
-        int *parent = new int[V];
+        int *parent = new int[V + 1];
         int *rank = new int[V];
 
         for (int i = 0; i < V; i++)
@@ -106,7 +106,7 @@ int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    // ReadCP();
+    ReadCP();
     
     int n, m;
     cin>>n>>m;

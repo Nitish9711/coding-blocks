@@ -5,6 +5,7 @@ min E: n-1 edges(tree)
 ways to represent graph
 1. adjancey matrix
 2. edges and list 
+
 V = {0, 1, 2, 3}
 E = [(0,1)(0, 2)(0, 3) (1, 2) ....]
 3. adjancey list
@@ -26,3 +27,20 @@ dfs forest - group of connected graphs
 
 dijkistra 
 priority queue has not the option to update so we use set for storing distance;
+
+
+
+spanning trees
+it is a tree made from subset of edges that connects all the vertices of graph i.e graph forms a 
+single connected component without forming a cycle contains n-1 edges where n is number of vertices
+
+
+algo
+
+1. kruskal algorithm (greedy algo)
+2. prims' algorithm(greedy algo)
+
+kruskal algo
+1. sort all the edges on the basisi of their weight
+2. pick the edges that does not form a cycle
+

@@ -70,7 +70,7 @@ int main()
 
         int n;
         cin >> n;
-        // vector<int>dp(n+1, 0);
+        vector<int>dp(n+1, 0);
         cout <<"case "<<i<<": "<< minStepbu(n) << endl;
         i++;
     }

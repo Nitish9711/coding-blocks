@@ -1,6 +1,1 @@
-Node 0 Dist from src 0
-Node 1 Dist from src 1
-Node 2 Dist from src 2
-Node 3 Dist from src 1
-Node 4 Dist from src 2
-Node 5 Dist from src 3
+0
