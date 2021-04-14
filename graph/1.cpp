@@ -1,19 +1,7 @@
-// optimizing union and path function
-
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long
 #define null NULL
-#define vi vector<int>
-#define vl vector<ll>
-#define moi map<int, int>
-#define umoi unordered_map<int, int>
-#define mol map<ll, ll>
-#define umol unordered_map<ll, ll>
-#define pi pair<int, int>
-#define pl pair<ll, ll>
-#define psi pair<string, int>
-#define pis pair<int, string>
 
 void ReadCP()
 {
@@ -23,100 +11,72 @@ void ReadCP()
 #endif
 }
 
-class Graph
-{
-    int V;
-    list<pair<int, int>> l;
+void dfs(vector<int>graph[],int i, bool *visited, vector<int>&stack ){
 
-public:
-    Graph(int V)
-    {
-        this->V = V;
-    }
+    visited[i] = true;
 
-    void addEdge(int x, int y)
-    {
-        l.push_back({x, y});
-    }
-
-    int findSet(int i, int parent[])
-    {
-        if (parent[i] == -1)
-            return i;
-        // path compression optimisation
-        return parent[i] = findSet(parent[i], parent);
-    }
-
-    void union_set(int x, int y, int parent[], int rank[])
-    {
-        int s1 = findSet(x, parent);
-        int s2 = findSet(y, parent);
-        if (s1 == s2)
-        {
-            return;
-        }
-        else
-        {
-            if (rank[s1] < rank[s2])
-            {
-                parent[s1] = s2;
-                rank[s2] += rank[s1];
-            }
-
-            else
-            {
-                parent[s2] = s1;
-                rank[s1] += rank[s2];
-            }
+    for(auto nbr:graph[i]){
+        if(!visited[nbr]){
+            dfs(graph, nbr, visited, stack);
         }
     }
 
-    int pairing()
-    {
-        int *parent = new int[V];
-        int *rank = new int[V];
+    stack.push_back(i);
+}
+void dfs2(vector<int>graph[],int i, bool *visited ){
 
-        for (int i = 0; i < V; i++)
-        {
-            parent[i] = -1;
-            rank[i] = 1;
+    visited[i] = true;
+    cout<<i<<" ";
+    for(auto nbr:graph[i]){
+        if(!visited[nbr]){
+            dfs2(graph, nbr, visited);
         }
-
-        int ans = 0;
-        for (auto edge : l)
-        {
-            int s1 = findSet(edge.first, parent);
-            int s2 = findSet(edge.second, parent);
-
-            union_set(s1, s2, parent, rank);
-           
-        }
-
-        for(int i = 0;i<V;i++){
-            ans += V- rank[findSet(i, parent)];
-        }
-
-        delete[] parent;
-        delete[] rank;
-        return ans/2;
     }
-};
+
+    // stack.push_back(i);
+}
+
+
+void solve(vector<int>graph[], vector<int>rev_graph[], int N){
+    bool visited[N];
+    memset(visited, 0, N);
+
+    vector<int>stack;
+
+    for(int i =0;i<N;i++){
+        if(!visited[i]){
+            dfs(graph, i, visited, stack);
+        }
+    }
+
+    memset(visited, 0, N);
+    char component_name ='A';
+    for(int x = stack.size()-1;x>=0;x--){
+        int node= stack[x];
+        if(!visited[node]){
+            cout<<"component "<<component_name <<"--> ";
+            dfs2(rev_graph, node, visited);
+            cout<<endl;
+            component_name++;
+        }
+    }
+
+}
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    // ReadCP();
-    
+    ReadCP();
     int n, m;
     cin>>n>>m;
-    Graph g(n);
-    for(int i =0;i<m;i++){
+    vector<int>graph[n];
+    vector<int>rev_graph[n];
+    while(m--){
         int x, y;
         cin>>x>>y;
-        g.addEdge(x, y);
-    }
-    cout<<g.pairing()<<endl;
+        graph[x].push_back(y);
+        rev_graph[y].push_back(x);
 
+    }
+    solve(graph, rev_graph, n);
     return 0;
 }
