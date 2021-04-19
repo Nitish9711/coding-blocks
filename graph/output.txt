@@ -1,3 +1,2 @@
-component A--> 0 1 2 
-component B--> 3 6 5 
-component C--> 4 
+6 6 -1 
+

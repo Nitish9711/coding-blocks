@@ -23,11 +23,12 @@ class Graph{
         cout<<src<<" ";
         visited[src] = true;
 
-        for(T nbr: l[src]){
+        for(auto nbr: l[src]){
             if(!visited[nbr]){
                 dfs_helper(nbr, visited);
             }
         }
+
     }
     void dfs(){
         map<T, bool> visited;
@@ -36,15 +37,18 @@ class Graph{
             visited[node] = false;
         }
 
-            int cnt = 0;
+      
+        int cnt = 0;
         for(auto p: l){
-            T src = p.first;
-            if(!visited[src]){
-                cout<<"component "<<cnt<<" -> ";
-                cnt++;
-                dfs_helper(src, visited);
-            }
-            cout<<endl;
+             T src = p.first;
+
+             if(!visited[src]){
+                 cout<<"component "<<cnt <<" -> ";
+                 cnt++;
+
+                 dfs_helper(src, visited);
+             cout<<endl;
+             }
         }
 
         // dfs_helper(src, visited);

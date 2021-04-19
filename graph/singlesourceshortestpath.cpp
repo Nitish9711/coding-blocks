@@ -12,8 +12,12 @@ void ReadCP()
 }
 template<typename T>
 class Graph{
+    int N;
     map<T, list<T>>l;
     public:
+    Graph(int n){
+        N =n;
+    }
     void addEdge(T x, T y ){
         l[x].push_back(y);
         l[y].push_back(x);
@@ -46,6 +50,10 @@ class Graph{
         T node = node_pair.first;
         int d = dist[node];
         cout<<"Node "<<node<<" Dist from src "<<d<<endl;
+    }
+
+    for(int i =1;i<=N;i++){
+
     }
     }
     

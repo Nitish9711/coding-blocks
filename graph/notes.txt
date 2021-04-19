@@ -1,3 +1,24 @@
+complete graph - exactly one edge between each pair of vertices represented by kn
+no of edge = n(n-1)/2;
+
+cycle - simple graphs with vertices n >= 3 denoted by Cn 
+no of edge = n
+
+wheels  - cycle with one additional vertex which is connected to every other vertex.
+Wn
+no of edges = 2*(n-1)
+
+hypercube - The Hypercube or n-cube is a graph with 2^n vertices each represented by a n-bit string.
+The vertices which differ by at most 1-bit are connected by edges. A hypercube of 2^n vertices is denoted by Q_{n}. 
+Total number of edges are n*2^{n-1} with 2^n vertices in cube graph.
+
+Biconnected graph: A connected graph which cannot be broken down into 
+any further pieces by deletion of any vertex.It is a graph with no articulation point.
+
+sparse graph - no of edges < vLog V  v is vertices
+
+foreset is disjoint set of trees
+
 number of edges a node can have in a graph
 max e : nC2 -> o(n2)
 min E: n-1 edges(tree)
@@ -153,3 +174,15 @@ finish time is define as the time to come back to same node from we started.
 3. do dfs from r to l as given in ordering list.
 
 
+
+
+some points
+If we use trees with the union-by-rank algorithm, 
+the worst case running time for checking if two elements are in same set or not O(logN)
+
+https://www.geeksforgeeks.org/gate-gate-cs-2001-question-40/#:~:text=How%20many%20undirected%20graphs%20(not,vn%7D%20of%20n%20vertices%3F&text=(C)%20n!&text=Explanation%3A%20There%20are%20total%20n,1)%2F2%20possible%20edges.
+
+Two graphs which contain the same number of graph vertices connected 
+in the same way are said to be isomorphic. Formally, two graphs and with graph vertices are said 
+to be isomorphic 
+if there is a permutation of such that is in the set of graph edges iff is in the set of graph edges .

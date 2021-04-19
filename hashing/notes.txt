@@ -28,7 +28,7 @@ collisions handling scheme
 1. open hashing - separate chaining
 2. closed hashing - open addressing
     a. linear probing
-   b. quadratic probing
+    b. quadratic probing
 
 3. double hashing
 
