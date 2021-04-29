@@ -1,0 +1,17 @@
+1. inplace sort, external sorting, internal sorting, 
+stable sorting algorithms
+ Bubble Sort, Insertion Sort, Merge Sort, Count Sort,
+ Some sorts such as Radix Sort depend on another sort,
+  with the only requirement that the other sort should be stable.
+
+https://www.geeksforgeeks.org/external-sorting/
+
+
+unstable - 
+Quick Sort, Heap Sort 
+
+
+
+2. bubble sort(sinking sort)
+3. kaden's algo line difference
+

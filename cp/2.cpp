@@ -2,141 +2,83 @@
 using namespace std;
 #define ll long long
 #define null NULL
-
+#define vi vector<int>
+#define vl vector<ll>
+#define moi map<int, int>
+#define umoi unordered_map<int, int>
+#define mol map<ll, ll>
+#define umol unordered_map<ll, ll>
+#define pi pair<int, int>
+#define pl pair<ll, ll>
+#define psi pair<string, int>
+#define pis pair<int, string>
+#define vp vector<pair<int, int>>
+#define endl "\n"
 void ReadCP()
 {
 #ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 #endif
 }
-class node
+ll gcd(int a, int b)
 {
-public:
-	char data;
-	unordered_map<char, node *> children;
-	int cnt;
-	bool terminal;
-	node(char d)
-	{
-		data = d;
-		terminal = false;
-		cnt = 0;
-	}
-};
+    if (b == 0)
+        return a;
+    return gcd(b, a % b);
+}
+ll prime[11] = {
+    0, 3, 11, 101, 1009, 10007, 100003, 1000003, 10000019, 100000007};
 
-class Trie
+ll countDigit(long long n)
 {
-	node *root;
-public:
-	Trie()
-	{
-		root = new node('\0');
-	}
+    ll count = 0;
+    while (n != 0)
+    {
+        n = n / 10;
+        ++count;
+    }
+    return count;
+}
 
-	void insert(string w)
-	{
-		node *temp = root;
-		for (int i = 0; i < w.length(); i++)
-		{
-			char ch = w[i];
-			if (temp->children.count(ch))
-			{
-				temp = temp->children[ch];
-				temp->cnt = temp->cnt + 1;
-			}
-			else
-			{
-				node *n = new node(ch);
-				temp->children[ch] = n;
-				temp = n;
-				temp->cnt = temp->cnt + 1;
-			}
-		}
-		temp->terminal = true;
-	}
+ll power[11];
+void power10()
+{
 
-	string prefix(string s)
-	{
-		node *temp = root;
-		int i = 0, length = s.length();
-		string ans = "";
-		while (i != length)
-		{
-			if ((temp->children[s[i]])->cnt == 1)
-			{
-				ans += s[i];
-				return ans;
-			}
-			else
-			{
-				ans += s[i];
-				temp = temp->children[s[i]];
-			}
-			i++;
-		}
-		return ans;
-	}
-};
+    power[0] = 1;
+    for (int i = 1; i <= 10; i++)
+    {
+        power[i] = power[i - 1] * 10;
+    }
+}
 
 int main()
 {
-	ReadCP();
-	int t;
-	cin>>t;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ReadCP();
+    // ll a = 110033;
+    // ll b = 110055;
+    power10();
 
-	while(t--){
-	
-		int n,m;
-		cin>>n>>m;
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        ll a, b, c;
+        cin >> a >> b >> c;
 
-		vector<string>ar;
-		string str;
-		Trie t;
-		bool one = false, zero = false;
-		string oneStart , zeroStart;
-		for(int i=0;i<n;i++){
-			cin>>str;
-			ar.push_back(str);
-			// ar[i]  = str;
-			t.insert(str);
+        if (a == b && a == c)
+        {
+            cout << prime[c] * 3 << " " << prime[c] * 5 << endl;
+        }
+        else
+        {
+            ll x = prime[c] * power[a - c] + prime[c] * 3;
+            ll y = prime[c] * power[b - c] + prime[c] * 5;
+            cout << x << " " << y << endl;
+        }
+    }
 
-			if(str[0] == '1' && one == false){
-				oneStart = str;
-				one = true;
-			}
-			else if(str[0] == '0' && zero == false){
-				zeroStart = str;
-				zero = true;
-			}
-		}	
-
-		ll ans = 0;
-		if(one == true)
-			ans += m;
-		if(zero == true)
-			ans += m;
-
-		for(int i=0;i<n;i++){
-			
-			if((ar[i][0] == '0' && ar[i] != zeroStart)
-				|| (ar[i][0]== '1' && ar[i]!= oneStart) ){
-					string pre = t.prefix(ar[i]);
-					ll preLen = pre.length();
-					if(preLen != m)
-						ans += m - (preLen  -1);
-			}
-
-		}
-
-		cout<<ans<<endl;
-
-    
-
-
-	}
-
-
-
-	return 0;
+    return 0;
 }
