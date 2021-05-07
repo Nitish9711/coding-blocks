@@ -23,12 +23,7 @@
     }
     void solve(ll n)
     {
-        if(n==1)
-        {
-            cout<<"1"<<endl;
-            return;
-        }
-        if(n==2)
+        if(n<=2)
         {
             cout<<"-1"<<endl;
             return;

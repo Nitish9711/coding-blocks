@@ -1,0 +1,16 @@
+Maths
+1. Birthday Paradox
+
+- https://betterexplained.com/articles/understanding-the-birthday-paradox/#:~:text=23%20people.,people%20having%20the%20same%20birthday.
+- https://www.geeksforgeeks.org/birthday-paradox/
+
+
+2. The Rule of 72
+
+ https://betterexplained.com/articles/the-rule-of-72/
+
+3. Modular Arithmetic Properties
+
+http://theoryofprogramming.com/2014/12/24/modular-arithmetic-properties/
+
+4. Modular Exponentiation
