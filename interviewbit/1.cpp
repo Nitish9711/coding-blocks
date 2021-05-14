@@ -22,15 +22,44 @@ void ReadCP()
 #endif
 }
 
+ll dp[100010];
+ll topDown( vl ar, ll i, ll n){
+    if(i < 0)
+        return INT_MAX;
+
+
+    if(dp[i] != INT_MAX)
+        return dp[i];
+
+    // dp[i] = min(abs(ar[i] - ar[i-1]) + topDown(dp, ar, i-1, n) ,abs(ar[i] - ar[i-2])+ topDown(dp, ar, i-2, n));
+    ll op1 = i>=1 ? abs(ar[i]- ar[i-1]) + topDown( ar, i-1, n)  : INT_MAX;
+    ll op2 = i>=2 ? abs(ar[i] - ar[i-2]) + topDown( ar, i-2, n) : INT_MAX;
+    dp[i] = min(op1, op2);
+    
+    // cout<<i<<" "<<dp[i]<<" "<<op1<<" "<<op2<<endl;
+    return dp[i];
+}
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ReadCP();
-    int t;
-    cin >> t;
-    while (t--)
-    {
-    }
+//    ReadCP();
+    ll n;
+    cin >> n;
+    vl ar(n);
+    for (ll i = 0; i < n; i++)
+        cin >> ar[i];
+
+  
+
+
+  
+
+        fill(dp, dp + n, INT_MAX);
+
+    dp[0] = 0;
+
+    cout<<topDown(ar, n-1, n-1);
     return 0;
 }
