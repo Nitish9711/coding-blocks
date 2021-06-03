@@ -12,7 +12,7 @@ using namespace std;
 #define pl pair<ll, ll>
 #define psi pair<string, int>
 #define pis pair<int, string>
-#define vp vector<pair<int, int>>
+#define vp vector<pair<ll, ll>>
 
 void ReadCP()
 {
@@ -21,45 +21,55 @@ void ReadCP()
     freopen("output.txt", "w", stdout);
 #endif
 }
+// vector<pair<bool, bool>> ar;
 
-ll dp[100010];
-ll topDown( vl ar, ll i, ll n){
-    if(i < 0)
-        return INT_MAX;
-
-
-    if(dp[i] != INT_MAX)
-        return dp[i];
-
-    // dp[i] = min(abs(ar[i] - ar[i-1]) + topDown(dp, ar, i-1, n) ,abs(ar[i] - ar[i-2])+ topDown(dp, ar, i-2, n));
-    ll op1 = i>=1 ? abs(ar[i]- ar[i-1]) + topDown( ar, i-1, n)  : INT_MAX;
-    ll op2 = i>=2 ? abs(ar[i] - ar[i-2]) + topDown( ar, i-2, n) : INT_MAX;
-    dp[i] = min(op1, op2);
+bool ar[3][100005] = {true};
+map<ll, bool>rowBlock;
+bool solve(ll r, ll c, ll n, ll q){
+    if(ar[2][n] == false)
+        return false;
     
-    // cout<<i<<" "<<dp[i]<<" "<<op1<<" "<<op2<<endl;
-    return dp[i];
-}
+    ar[r][c] = ar[r][c] == true ? false: true;
+    
+    
+    if(ar[1][c] == false && ar[2][c] == false)
+    {
+        rowBlock[c] = true;
+    }
+    
 
+
+
+    return true;
+}
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-//    ReadCP();
-    ll n;
-    cin >> n;
-    vl ar(n);
-    for (ll i = 0; i < n; i++)
-        cin >> ar[i];
+    ReadCP();
+   
+        ll n, q;
+        cin>>n>>q;
+        // vp ar;
+        // rowBlock.resize(n+1);
+        // digBlock.resize(n+1);
+        // cout<<n<<q<<endl;
+        for(int i =0;i<=n;i++){
+            ar[0][i] =true;
+            ar[1][i] = true;
+            ar[2][i] = true;
+        }
+        // cout<<n<<q<<endl;
+            // cout<<x<<y<<endl;
+        while(q--){
+            ll x, y;
+            cin>>x>>y;
+            if(solve(x, y, n, q))
+                cout<<"YES"<<endl;
+            else
+                cout<<"NO"<<endl;
 
-  
-
-
-  
-
-        fill(dp, dp + n, INT_MAX);
-
-    dp[0] = 0;
-
-    cout<<topDown(ar, n-1, n-1);
+        }
+    
     return 0;
 }
