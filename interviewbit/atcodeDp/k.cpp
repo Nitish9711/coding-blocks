@@ -22,34 +22,38 @@ void ReadCP()
 #endif
 }
 
-bool solve(vl ar){
-    if((ar[0]< ar[2] && ar[0] < ar[3]) && (ar[1]< ar[2] && ar[1]<ar[3])){
-        return false;
-    }
-    if((ar[2]< ar[0] && ar[2] < ar[1]) && (ar[3]< ar[0] && ar[3]<ar[1])){
-        return false;
-    }
-    return true;
-
-}
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ReadCP();
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        vl ar(4);
-        cin>>ar[0]>>ar[1]>>ar[2]>>ar[3];
-
-        if(solve(ar))
-            cout<<"YES"<<endl;
-        else
-            cout<<"NO"<<endl;
-
-
+    ll n;
+    cin>>n;
+    ll dp[3000][3000][2];
+    vl ar(n);
+    ll sum =0;
+    for(ll i=0;i<n;i++){
+        cin>>ar[i];
+        sum += ar[i];
     }
+    
+    for(ll i =0;i<n;i++){
+        dp[i][i][0] = ar[i];
+        dp[i][i][1]  = i;
+    }
+
+    for(ll RminusL = 1;RminusL<n;RminusL++){
+        for(ll L = 0;L + RminusL < n;L++){
+            ll R = L + RminusL;
+            dp[L][R][0] = max(ar[L] + dp[L+1][R][1],
+                                ar[R] + dp[L][R-1][1]);
+
+            dp[L][R][1] = min(dp[L+1][R][0], dp[L][R-1][0]);
+        }
+    }
+    
+    ll ans = 2*dp[0][n-1][0] - sum;
+    cout<<ans<<endl;
+
     return 0;
 }

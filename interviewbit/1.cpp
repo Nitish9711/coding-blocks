@@ -12,7 +12,7 @@ using namespace std;
 #define pl pair<ll, ll>
 #define psi pair<string, int>
 #define pis pair<int, string>
-#define vp vector<pair<ll, ll>>
+#define vp vector<pair<int, int>>
 
 void ReadCP()
 {
@@ -21,55 +21,57 @@ void ReadCP()
     freopen("output.txt", "w", stdout);
 #endif
 }
-// vector<pair<bool, bool>> ar;
 
-bool ar[3][100005] = {true};
-map<ll, bool>rowBlock;
-bool solve(ll r, ll c, ll n, ll q){
-    if(ar[2][n] == false)
-        return false;
-    
-    ar[r][c] = ar[r][c] == true ? false: true;
-    
-    
-    if(ar[1][c] == false && ar[2][c] == false)
-    {
-        rowBlock[c] = true;
-    }
-    
-
-
-
-    return true;
-}
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ReadCP();
-   
-        ll n, q;
-        cin>>n>>q;
-        // vp ar;
-        // rowBlock.resize(n+1);
-        // digBlock.resize(n+1);
-        // cout<<n<<q<<endl;
-        for(int i =0;i<=n;i++){
-            ar[0][i] =true;
-            ar[1][i] = true;
-            ar[2][i] = true;
-        }
-        // cout<<n<<q<<endl;
-            // cout<<x<<y<<endl;
-        while(q--){
-            ll x, y;
-            cin>>x>>y;
-            if(solve(x, y, n, q))
-                cout<<"YES"<<endl;
-            else
-                cout<<"NO"<<endl;
 
+    ll n, k, x;
+    cin >> n >> k >> x;
+    vl ar(n);
+    for (ll i = 0; i < n; i++)
+        cin >> ar[i];
+
+    sort(ar.begin(), ar.end());
+    if(n == 1)
+    {
+        cout<<1<<endl;
+        return 0;
+    }
+    int grp = 1;
+    int i = 1;
+    while (i < n)
+    {
+        if (ar[i] - ar[i - 1] <= x)
+            i++;
+        else
+        {
+            ll req = 0;
+            int j =i-1;
+            int temp =ar[j];
+            while(temp< ar[i]-x){
+                temp = temp+x;
+                req++;
+                if(temp == ar[i]-x)
+                    break;
+            }
+            if (k >= req)
+            {
+                cout<<"req "<<i<<" "<<req<<endl;
+                i++;
+                k = k - req;
+                // continue;
+            }
+            else{
+                cout<<i<<endl;
+                grp++;
+                i++;
+            }
         }
-    
+    }
+    cout<<grp<<endl;
+
     return 0;
 }

@@ -21,71 +21,78 @@ void ReadCP()
     freopen("output.txt", "w", stdout);
 #endif
 }
-ll solve(vector<vector<ll>> adj, ll n, ll m)
+void solve(vl ar, ll n)
 {
-    vector<bool> visited(n + 1, false);
-    queue<ll> q;
-
-    // visited[1] = true;
-    vector<ll> res;
-
-    for (ll i = 1; i <= n; i++)
-    {
-        // cout<<i<<endl;
-        if (visited[i] == false)
+    sort(ar.begin(), ar.end());
+    set<ll>s;
+   
+    
+    for(auto x: ar){
+        if(x < 0)
         {
-            q.push(i);
-            ll cnt = 1;
-            visited[i] = true;
-            while (!q.empty())
-            {
-                auto p = q.front();
-                q.pop();
-                // cout << p << endl;
-                for (auto x : adj[p])
-                {
-                    if (visited[x] == false)
-                    {
-                        q.push(x);
-                        visited[x] = true;
-                        cnt++;
-                    }
-                }
-            }
-            res.push_back(cnt);
+            cout<<"NO"<<endl;
+            return;
         }
+        s.insert(x);
     }
-    ll ans = 0;
-    for(auto x: res){
-        ans += 3 * (1<<(x-1));
+       
+    auto i = s.begin();
+    // auto j = s.end();
+    // j--;
+    // for(auto x: s)
+    //     cout<<x<<" ";
+    // cout<<endl;
+    // cout<<*j<<endl;
+    // cout<<*i<<endl;
+    while(i != s.end() && s.size() <=300){
+        auto j = s.end();
+        j--;
+        while(j != i && s.size() <=300){
+            ll d= abs(*i - *j);
+            cout<<d<<" "<<*i<< " "<<*j<<endl;
+            if(s.find(d) != s.end()){
+                j--;
+                continue;
+            }
+
+            else{
+                s.insert(d);
+                j--;
+            }
+        }
+        i++;
     }
-    return ans;
+
+    if(s.size()>300)
+    {
+        cout<<"NO"<<endl;
+        return;
+    }
+    cout<<"YES"<<endl;
+    cout<<s.size()<<endl;
+       for(auto x: s)
+        cout<<x<<" ";
+    cout<<endl;
 }
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     ReadCP();
-    ll n, m;
-    cin >> n >> m;
-    ll t = m;
-    vector<vector<ll>> adj(n + 1);
+    int t;
+    cin >> t;
     while (t--)
     {
-        ll x, y;
-        cin >> x >> y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
+        ll n;
+        cin >> n;
+        vl ar(n);
+        for (ll i = 0; i < n; i++)
+        {
+            cin >> ar[i];
+        }
+
+        solve(ar, n);
+        // cout<<t<<endl;
     }
-
-    // for(ll i=0;i<=n;i++){
-    //     cout<<i<<" ->";
-    //     for(ll j=0;j<adj[i].size();j++){
-    //         cout<<adj[i][j]<<" ";
-    //     }
-    //     cout<<endl;
-    // }
-
-    cout << solve(adj, n, m) << endl;
     return 0;
 }

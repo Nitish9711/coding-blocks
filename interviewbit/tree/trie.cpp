@@ -64,7 +64,17 @@ class Trie{
             return ans;
         }
         
-       
+         bool search(string w){
+       node *temp = root;
+       for(char ch : w){
+           if(temp->children[ch])
+               temp =  temp->children[ch];
+               
+            else
+                return false;
+       }
+       return temp->terminal == true ?true : false;
+    }
 };
 
 
@@ -80,10 +90,14 @@ int main()
     }
 
 
-    for(int i =0;i<n;i++){
-        cout<<t.prefix(arr[i])<<endl;
+    // for(int i =0;i<n;i++){
+    //     cout<<t.prefix(arr[i])<<endl;
+    // }
+    if(t.search("dog"))
+        cout<<"something"<<endl;
+    else{
+        cout<<"nothing"<<endl;
     }
-
     
     return 0;
 }

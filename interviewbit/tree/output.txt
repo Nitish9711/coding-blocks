@@ -1,0 +1,26 @@
+Huffman coding is a data compression algorithm.
+huffman codes  are 
+h ->111110
+f ->11110
+i ->1110
+t ->11011
+l ->110100
+o ->1100
+n ->1011
+r ->10101
+d ->0010
+g ->0001
+H ->00001
+u ->00000
+c ->0011
+a ->010
+e ->110101
+  ->011
+m ->1000
+. ->111111
+s ->1001
+p ->10100
+original string ->Huffman coding is a data compression algorithm.
+encoded string is ->00001000001111011110100001010110110011110000101110101100010111110100101101001100100101101101001100111100100010100101011101011001100111101100101101101011010000011100101011110110111111101000111111
+the decoded string is
+Huffman coding is a data compression algorithm.

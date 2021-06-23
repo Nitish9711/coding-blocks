@@ -1,6 +1,7 @@
 heap - 
 1. it is binary tree
-2. it should be a complete binary tree (CBT) -  all levels are completely filled and filling should be in the left to right order-  height of CBT is log(N)
+2. it should be a complete binary tree (CBT) -  all levels are completely filled and filling should be in the left 
+to right order-  height of CBT is log(N)
 3. heap order property - 
 heap are of two types  max heap and min heap
 
