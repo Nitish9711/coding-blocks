@@ -1,82 +1,120 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-#define ll long long
-#define null NULL
-
-void ReadCP()
+ 
+// Data structure to store a graph edge
+struct Edge {
+    int src, dest;
+};
+ 
+// A class to represent a graph object
+class Graph
 {
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-}
-
-void dfs(vector<int>graph[],int i, bool *visited, vector<int>&stack ){
-
-    visited[i] = true;
-
-    for(auto nbr:graph[i]){
-        if(!visited[nbr]){
-            dfs(graph, nbr, visited, stack);
+    public:
+ 
+    // a vector of vectors to represent an adjacency list
+    vector<vector<int>> adjList;
+ 
+    // Constructor
+    Graph(vector<Edge> const &edges, int N)
+    {
+        // resize the vector to hold `N` elements of type `vector<int>`
+        adjList.resize(N);
+ 
+        // add edges to the directed graph
+        for (auto &edge: edges) {
+            adjList[edge.src].push_back(edge.dest);
         }
     }
-
-    stack.push_back(i);
-}
-void dfs2(vector<int>graph[],int i, bool *visited ){
-
-    visited[i] = true;
-    cout<<i<<" ";
-    for(auto nbr:graph[i]){
-        if(!visited[nbr]){
-            dfs2(graph, nbr, visited);
+};
+ 
+// Function to perform DFS traversal on the graph on a graph
+void DFS(Graph const &graph, int v, vector<bool> &visited)
+{
+    // mark current node as visited
+    visited[v] = true;
+ 
+    // do for every edge `v —> u`
+    for (int u: graph.adjList[v])
+    {
+        // `u` is not visited
+        if (!visited[u]) {
+            DFS(graph, u, visited);
         }
     }
-
-    // stack.push_back(i);
 }
-
-
-void solve(vector<int>graph[], vector<int>rev_graph[], int N){
-    bool visited[N];
-    memset(visited, 0, N);
-
-    vector<int>stack;
-
-    for(int i =0;i<N;i++){
-        if(!visited[i]){
-            dfs(graph, i, visited, stack);
+ 
+// Function to check if the graph is strongly connected or not
+bool check(Graph const &graph, int N)
+{
+    // to keep track of whether a vertex is visited or not
+    vector<bool> visited(N);
+ 
+    // choose a random starting point
+    int v = 0;
+ 
+    // run a DFS starting at `v`
+    DFS(graph, v, visited);
+ 
+    // If DFS traversal doesn't visit all vertices,
+    // then the graph is not strongly connected
+    if (find(visited.begin(), visited.end(), false) != visited.end()) {
+        return false;
+    }
+ 
+    // reset visited vector
+    fill(visited.begin(), visited.end(), false);
+ 
+    // Reverse the direction of all edges in the
+    // directed graph
+    vector<Edge> edges;
+    for (int i = 0; i < N; i++)
+    {
+        for (int j: graph.adjList[i]) {
+            edges.push_back({j, i});
         }
     }
-
-    memset(visited, 0, N);
-    char component_name ='A';
-    for(int x = stack.size()-1;x>=0;x--){
-        int node= stack[x];
-        if(!visited[node]){
-            cout<<"component "<<component_name <<"--> ";
-            dfs2(rev_graph, node, visited);
-            cout<<endl;
-            component_name++;
-        }
+ 
+    // Create a graph from reversed edges
+    Graph gr(edges, N);
+ 
+    // Again run a DFS starting at `v`
+    DFS(gr, v, visited);
+ 
+    // If DFS traversal doesn't visit all vertices,
+    // then the graph is not strongly connected
+    if (find(visited.begin(), visited.end(), false) != visited.end()) {
+        return false;
     }
-
+ 
+    // if a graph "passes" both DFSs, it is strongly connected
+    return true;
 }
-
+ 
 int main()
 {
-    ReadCP();
-    int n, m;
-    cin>>n>>m;
-    vector<int>graph[n];
-    vector<int>rev_graph[n];
-    while(m--){
-        int x, y;
-        cin>>x>>y;
-        graph[x].push_back(y);
-        rev_graph[y].push_back(x);
-
+    // vector of graph edges as per the above diagram
+    vector<Edge> edges = {
+        {0, 4}, {1, 0}, {1, 2}, {2, 1}, {2, 4},
+        {3, 1}, {3, 2}, {4, 3}
+    };
+ 
+    // total number of nodes in the graph
+    int N = 5;
+ 
+    // build a graph from the given edges
+    Graph graph(edges, N);
+ 
+    // check if the graph is not strongly connected or not
+    if (check(graph, N)) {
+        cout << "The graph is strongly connected";
     }
-    solve(graph, rev_graph, n);
+    else {
+        cout << "The graph is not strongly connected";
+    }
+ 
     return 0;
 }
+
+
