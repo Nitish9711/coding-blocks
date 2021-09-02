@@ -1,0 +1,16 @@
+    25 Feb 2021
+1. https://www.geeksforgeeks.org/stdstring-class-in-c/
+
+
+2. https://www.geeksforgeeks.org/what-is-array-decay-in-c-how-can-it-be-prevented/
+
+
+3. https://www.geeksforgeeks.org/using-sizof-operator-with-array-paratmeters/
+
+
+4. https://www.geeksforgeeks.org/why-c-treats-array-parameters-as-pointers/
+
+5 .https://www.geeksforgeeks.org/c-string-class-and-its-applications/
+
+
+26 Feb 2021
