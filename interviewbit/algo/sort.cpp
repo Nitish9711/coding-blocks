@@ -21,6 +21,19 @@ void ReadCP()
     freopen("output.txt", "w", stdout);
 #endif
 }
+
+
+// Algorithm	               Best	             Average	               Worst
+// Quick Sort           	Ω(n log(n))	       Θ(n log(n))	              O(n^2)
+// Bubble Sort	            Ω(n)	           Θ(n^2)	                  O(n^2)
+// Merge Sort              Ω(n log(n))	       Θ(n log(n))	              O(n log(n))
+// Insertion Sort	        Ω(n)	           Θ(n^2)	                  O(n^2)
+// Selection Sort       	Ω(n^2)	           Θ(n^2)	                  O(n^2)
+// Heap Sort	            Ω(n log(n))	       Θ(n log(n))                O(n log(n))
+// Radix Sort	            Ω(nk)	           Θ(nk)	                  O(nk)
+// Bucket Sort          	Ω(n+k)	           Θ(n+k)	                  O(n^2)
+
+
 void selection_sort(vector<int>&ar, int n){
     for(int i=0;i<n-1;i++){
         int min_idx = i;
@@ -33,6 +46,8 @@ void selection_sort(vector<int>&ar, int n){
 
 }
 
+// best case - when array is is_sorted
+// worst case - when array is reverse sorted
 void insertion_sort(vector<int>&ar, int n){
     for(int i=1;i<n;i++){
         int val = ar[i];
@@ -44,6 +59,7 @@ void insertion_sort(vector<int>&ar, int n){
         ar[j] = val;
     }
 }
+// best case - when array is is_sorted
 void bubble_sort(vector<int>&ar, int n){
     for(int i=0;i<n-1;i++){
         for(int j =0;j<n-i-1;j++){
@@ -53,12 +69,15 @@ void bubble_sort(vector<int>&ar, int n){
     }
 }
 
+// with recursion top down
 void merge(int ar[], int s, int e){
     int mid = (s+e)/2;
     int i = s;
     int j = mid+1;
     int k = s;
-    int temp[500];
+    // int temp[500];
+    int temp[e-s+1];
+    k =0;
     while(i<=mid && j <=e){
         if(ar[i] < ar[j]){
             temp[k++] = ar[i++];
@@ -74,7 +93,7 @@ void merge(int ar[], int s, int e){
         temp[k++] = ar[j++];
     }
     for(int i= s;i<=e;i++){
-        ar[i] = temp[i];
+        ar[i] = temp[i-s];
     }
 }
 void merge_sort(int ar[], int s, int e){
@@ -85,90 +104,109 @@ void merge_sort(int ar[], int s, int e){
     merge_sort(ar, mid+1 ,e);
     merge(ar, s, e);
 }
+//bottom up merge sort
 
-int partition(int ar[], int s, int e){
-    int i = s-1;
-    int j = s;
 
-    int pivot = ar[e];
-    for(;j<=e-1;){
-        if(ar[j]<=pivot){
-            //merge the smaller element in the region
-            i= i+1;
-            swap(ar[i], ar[j]);
+
+//quick sort
+//  The worst-case time complexity of Quicksort is o(n2). The worst case happens when the pivot happens 
+// to be the smallest or 
+//  largest element in the list or when all the array elements are equal. This will result in the most 
+//  unbalanced partition as the pivot divides the array into two subarrays of sizes 0 and n-1
+// . If this repeatedly happens in every partition (say, we have sorted array), 
+// then each recursive call processes a list of size one less than the previous list, resulting in 
+
+
+//auxillary space for call stack O(n)
+// The space complexity is calculated based on the space used in the recursion stack. 
+// The worst case space used will be O(n) . The average case space used will be of the order O(log n). 
+// The worst case space complexity becomes O(n), when the algorithm encounters its worst 
+// case where for getting a sorted list, we need to make n recursive calls.
+
+// Partition using the Lomuto partition scheme
+// Quick sort is an inplace algorithm which means the numbers are all sorted within the original array itself.
+
+// Why Quick Sort is better than Merge Sort?
+
+// Auxiliary Space : Quick sort is an in-place sorting algorithm whereas Merge sort uses extra space. 
+// In-place sorting means no additional storage space is used to perform sorting (except recursion stack).
+//  Merge sort requires a new temporary array to merge the sorted arrays thereby making Quick sort the better
+//   option.
+// Worst Cases : The worst case runtime of quick sort is O(n2) can be avoided by using randomized
+//  quicksort as explained in the previous point. Obtaining average case behavior by choosing random pivot element improves the performance and becomes as efficient as merge sort.
+// Cache Friendly: Quick Sort is also a cache friendly sorting algorithm as it has good locality of
+//  reference when used for arrays.
+
+
+int partition(int a[], int start, int end)
+{
+    // Pick the rightmost element as a pivot from the array
+    int pivot = a[end];
+    // elements less than the pivot will be pushed to the left of `pIndex`
+    // elements more than the pivot will be pushed to the right of `pIndex`
+    // equal elements can go either way
+    int pIndex = start;
+    // each time we find an element less than or equal to the pivot, `pIndex`
+    // is incremented, and that element would be placed before the pivot.
+    for (int i = start; i < end; i++)
+    {
+        if (a[i] <= pivot)
+        {   swap(a[i], a[pIndex]);
+            pIndex++;
         }
-        // expanding the larger region
-        j+1;
     }
-    //inplace the pivot element in th corrct place//
-    swap(ar[i+1], ar[e]);
-    return i+1;
+    // swap `pIndex` with pivot
+    swap (a[pIndex], a[end]);
+    // return `pIndex` (index of the pivot element)
+    return pIndex;
 }
-void quick_sort(int ar[], int s, int e){
-    if(s >=e)
+// Quicksort routine
+void quicksort(int a[], int start, int end)
+{
+    // base condition
+    if (start >= end) {
         return;
-    int p = partition(ar, s, e);
-    quick_sort(ar, s, p-1);
-    quick_sort(ar, p+1,e);
+    }
+    // rearrange elements across pivot
+    int pivot = partition(a, start, end);
+    // recur on subarray containing elements that are less than the pivot
+    quicksort(a, start, pivot - 1);
+    // recur on subarray containing elements that are more than the pivot
+    quicksort(a, pivot + 1, end);
 }
-// one based indexing
+
+
+//heap sort
+//zero based
+
 bool minHeap = false;
 bool compare(int a, int b){
-    if(minHeap)
+    if(!minHeap)
         return a < b;
     return a > b;
 }
-void heapify(vector<int>&v, int idx, int size){
-    int left = 2*idx;
-    int right = 2*idx + 1;
-    int last = size-1;
-    int min_idx = idx;
-    if(left <=last && compare(v[left], v[min_idx]))
-        min_idx = left;
-    if(right <=last && compare(v[right], v[min_idx]))
-        min_idx = right;
-    if(min_idx!= idx){
-        swap(v[min_idx], v[idx]);
-        heapify(v, min_idx, size);
-    }
-}
-
-void heap_sort(vector<int>&v){
-    
-    int n = v.size();
-    for(int i = (v.size()-1)/2;i>=1;i--){
-        heapify(v, i, n);
-    }
-  
-    while(n>1){
-        swap(v[1], v[n-1]);
-        n--;
-        heapify(v, 1, n);
-    }
-}
-
-
 void heapify(int arr[], int n, int i)
 {
-    int largest = i; // Initialize largest as root
-    int l = 2 * i + 1; // left = 2*i + 1
-    int r = 2 * i + 2; // right = 2*i + 2
- 
-    // If left child is larger than root
-    if (l < n && arr[l] > arr[largest])
-        largest = l;
- 
-    // If right child is larger than largest so far
-    if (r < n && arr[r] > arr[largest])
-        largest = r;
- 
-    // If largest is not root
-    if (largest != i) {
-        swap(arr[i], arr[largest]);
- 
-        // Recursively heapify the affected sub-tree
-        heapify(arr, n, largest);
-    }
+	int largest = i; // Initialize largest as root
+	int l = 2 * i + 1; // left = 2*i + 1
+	int r = 2 * i + 2; // right = 2*i + 2
+
+	// If left child is larger than root
+	if (l < n &&  compare(arr[l] , arr[largest]))
+     
+		largest = l;
+
+	// If right child is larger than largest so far
+	if (r < n &&  compare(arr[r] , arr[largest]))
+		largest = r;
+
+	// If largest is not root
+	if (largest != i) {
+		swap(arr[i], arr[largest]);
+
+		// Recursively heapify the affected sub-tree
+		heapify(arr, n, largest);
+	}
 }
  
 // main function to do heap sort
@@ -183,6 +221,91 @@ void heapSort(int arr[], int n)
         heapify(arr, i, 0);
     }
 }
+
+
+//counting sort
+// The time complexity of counting sort algorithm is O(n+k) 
+// where n is the number of elements in the array and k is the range of the elements.
+// In Counting sort, the frequencies of distinct elements of the array to be sorted 
+// is counted and stored in an auxiliary array, 
+// by mapping its value as an index of the auxiliary array
+// maximum value in array  is less than the maximum size of the array 
+
+void counting_sort(int A[], int Aux[], int sortedA[], int N) {
+
+    // First, find the maximum value in A[]
+    int K = 0;
+    for(int i=0; i<N; i++) {
+        K = max(K, A[i]);
+    }
+
+    // Initialize the elements of Aux[] with 0
+    for(int i=0 ; i<=K; i++) {
+        Aux[i] = 0;
+    }
+
+    // Store the frequencies of each distinct element of A[],
+    // by mapping its value as the index of Aux[] array
+    for(int i=0; i<N; i++) {
+        Aux[A[i]]++;
+    }
+
+    int j = 0;
+    for(int i=0; i<=K; i++) {
+        int tmp = Aux[i];
+        // Aux stores which element occurs how many times,
+        // Add i in sortedA[] according to the number of times i occured in A[]
+        while(tmp--) {
+            //cout << Aux[i] << endl;
+            sortedA[j] = i;
+            j++;
+        }
+    }
+}
+
+//radix sort
+// 1. Since Radix Sort depends on digits or letters, Radix Sort is much less flexible
+//  than other sorts. Hence , for every different type of data it needs to be rewritten.
+// 2. The constant for Radix sort is greater compared to other sorting algorithms.
+// 3. It takes more space compared to Quicksort which is inplace sorting.
+
+// We can’t use counting sort because counting sort will take O(n2) which is worse than 
+// comparison-based sorting algorithms. Can we sort such an array in linear time? 
+
+void countsort(ll arr[],ll n,ll place)
+{
+    //range for integers is 10 as digits range from 0-9
+        int range = 10;
+        int i,freq[range]={0};         //range for integers is 10 as digits range from 0-9
+        int output[n];
+        for(i=0;i<n;i++)
+                freq[(arr[i]/place)%range]++;
+        for(i=1;i<range;i++)
+                freq[i]+=freq[i-1];
+        for(i=n-1;i>=0;i--)
+        {
+                output[freq[(arr[i]/place)%range]-1]=arr[i];
+                freq[(arr[i]/place)%range]--;
+        }
+        for(i=0;i<n;i++)
+                arr[i]=output[i];
+}
+void radixsort(ll arr[],int n)            //maxx is the maximum element in the array
+{
+        //maxx is the maximum element in the array
+        ll maxx = INT_MIN;
+        for(ll i=0;i<n;i++)
+            maxx = max(arr[i], maxx);
+        int place=1;
+        while(maxx)
+        {
+                countsort(arr,n,place);
+                place*=10;
+                maxx/=10;
+        }
+}
+
+
 int main()
 {
     ios_base::sync_with_stdio(false);
