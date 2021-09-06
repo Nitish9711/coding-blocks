@@ -21,16 +21,22 @@ void ReadCP()
     freopen("output.txt", "w", stdout);
 #endif
 }
-
+class temp{
+    int a;
+    public:
+    temp(){
+        int d;
+    }
+    void hello(){
+        int d =0;
+        cout<<d<<endl;
+    }
+};
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    ReadCP();
-    int t;
-    cin >> t;
-    while (t--)
-    {
-    }
+    // ReadCP();
+    cout<<sizeof(temp)<<endl;
     return 0;
 }
