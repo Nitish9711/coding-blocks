@@ -15,6 +15,7 @@ using namespace std;
 #define vp vector<pair<int, int>>
 
 
+// minimum size of tree 4n (approx)
 void ReadCP()
 {
 #ifndef ONLINE_JUDGE
@@ -24,7 +25,7 @@ void ReadCP()
 }
 vl tree(400005);
 vl ar(100005);
-void buildTree(ll si , ll ss , ll se){
+void buildTree(ll si , ll ss  , ll se){
     if(ss == se){
         tree[si] = ar[ss];
         return;
@@ -36,13 +37,16 @@ void buildTree(ll si , ll ss , ll se){
 }
 
 int answer(ll si, ll ss, ll se, ll qs, ll qe){
+    // completley outside
     if(qs > se || qe < ss)
         return INT_MAX;
     
+    // completly inside curent node
     if(ss >= qs &&  se <= qe)
         return tree[si];
     
     int mid = (ss + se)/2;
+    //partially
     return min(answer(2*si, ss, mid,qs, qe) , answer(2*si + 1, mid+1, se, qs , qe));    
 }
 void update(int si, int ss, int se, int qi){
@@ -54,9 +58,10 @@ void update(int si, int ss, int se, int qi){
 
 
     int mid = (ss + se)/2;
+    // left side
     if(qi <=mid)
         update(2*si, ss, mid, qi);
-    else 
+    else  // right side
         update(2*si + 1, mid+1, se, qi);    
     tree[si] = min(tree[2*si], tree[2*si+1]);
 }

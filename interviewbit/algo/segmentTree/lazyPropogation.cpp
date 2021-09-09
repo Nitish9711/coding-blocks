@@ -14,7 +14,9 @@ using namespace std;
 #define pis pair<int, string>
 #define vp vector<pair<int, int>>
 
-
+// range sum
+//used when we have to update in an interval
+// lazy propogation update when requiered just rembered to update
 void ReadCP()
 {
 #ifndef ONLINE_JUDGE
@@ -58,25 +60,35 @@ ll query(ll si, ll ss, ll se, ll qs, ll qe){
 }
 
 void update(ll si, ll ss, ll se, ll qs, ll qe, ll val){
-    
-     if(lazy[si]!= 0){
+
+    //  if(ss > se)
+        // return;
+     
+
+    if(lazy[si]!= 0){
         ll dx = lazy[si];
+        // progate update to its child
         lazy[si] =0;
+
+        // update the tree
         tree[si] += dx * (se- ss + 1);
         if(ss != se)
             lazy[2*si] += dx, lazy[2*si+1] = dx;
     }
 
-      if(ss > qe  || se < qs)
+    // no overlap
+    if(ss > qe  || se < qs)
         return;
-    if(ss >= qs && se <= qe){
+    // complete overlap
+    if(ss >= qs && se <= qe)
     {
         ll dx = (se-ss + 1) * val;
         tree[si] += dx;
         if(ss!= se)
-            lazy[2*si] += val, lazy[2*si+1] = val;
+            lazy[2*si] += val, lazy[2*si+1] += val;
         return;
     }
+    // partial overlap
     int mid = (ss + se)/2;
     update(2*si, ss, mid, qs, qe, val);
     update(2*si+1, mid+1, se, qs, qe, val);
@@ -84,10 +96,9 @@ void update(ll si, ll ss, ll se, ll qs, ll qe, ll val){
 
 
 }
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    
+
+int main(){
     return 0;
 }
+
+
