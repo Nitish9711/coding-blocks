@@ -21,6 +21,7 @@ void buildHeap(vector<int> &v)
     }
 }
 
+
 //  o(N)
 bool minHeap = false;
 bool compare(int a, int b)
