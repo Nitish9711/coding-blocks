@@ -3,6 +3,14 @@ using namespace std;
 #define ll long long
 #define null NULL
 
+//nlogn
+/*kruskal algo
+edge list graph and DSU(disjoint sets union)
+wwighted undirected graph
+greedy algo
+1. sort all the edges on the basisi of their weight
+2. pick the edges that does not form a cycle
+*/
 void ReadCP()
 {
 #ifndef ONLINE_JUDGE

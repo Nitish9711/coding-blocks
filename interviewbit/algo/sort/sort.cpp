@@ -376,7 +376,10 @@ void counting_sort(int A[], int Aux[], int sortedA[], int N =10) {
 //  than other sorts. Hence , for every different type of data it needs to be rewritten.
 // 2. The constant for Radix sort is greater compared to other sorting algorithms.
 // 3. It takes more space compared to Quicksort which is inplace sorting.
+//  The time complexity of counting sort algorithm is O(n+k) 
+// where n is the number of elements in the array and k is the range of the elements.
 
+// CountSort algorithm to get a better time complexity when k goes O(n2)
 // We can’t use counting sort because counting sort will take O(n2) which is worse than 
 // comparison-based sorting algorithms. Can we sort such an array in linear time? 
 

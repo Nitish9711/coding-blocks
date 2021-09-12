@@ -82,6 +82,14 @@ class Graph{
             }
 
     }
+
+   /* class comp{
+    public:
+     bool operator()(const node &lhs, const node &rhs) const {
+        return lhs.weight > rhs.weight;
+    }
+};*/
+    // E log V
     void disjktraPq(T src){
         priority_queue<node, vector<node>, comp>min_heap;
         unordered_map<T, int>dist;

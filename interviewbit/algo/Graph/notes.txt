@@ -1,0 +1,204 @@
+A graph is a data structure that consists of the following two components: 
+1. A finite set of vertices also called as nodes. 
+2. A finite set of ordered pair of the form (u, v) called as edge. The pair is ordered because (u, v) is not the same as (v, u) in case of 
+a directed graph(di-graph). The pair of the form (u, v) indicates that there is an edge from vertex u to vertex v.
+ The edges may contain weight/value/cost.
+Graphs are used to represent many real-life applications: Graphs are used to represent networks. 
+The networks may include paths in a city or telephone network or circuit network. Graphs are also used in social networks like linkedIn, 
+Facebook. For example, in Facebook, each person is represented with a vertex(or node). 
+Each node is a structure and contains information like person id, name, gender, and locale. See this for more applications of graph. 
+
+
+
+
+complete graph - exactly one edge between each pair of vertices represented by kn
+no of edge = n(n-1)/2;
+
+cycle - simple graphs with vertices n >= 3 denoted by Cn 
+no of edge = n
+
+wheels  - cycle with one additional vertex which is connected to every other vertex.
+Wn
+no of edges = 2*(n-1)
+
+hypercube - The Hypercube or n-cube is a graph with 2^n vertices each represented by a n-bit string.
+The vertices which differ by at most 1-bit are connected by edges. A hypercube of 2^n vertices is denoted by Q_{n}. 
+Total number of edges are n*2^{n-1} with 2^n vertices in cube graph.
+
+Biconnected graph: A connected graph which cannot be broken down into 
+any further pieces by deletion of any vertex.It is a graph with no articulation point.
+
+sparse graph - no of edges < vLog V  v is vertices
+
+foreset is disjoint set of trees
+
+number of edges a node can have in a graph
+max e : nC2 -> o(n2)
+min E: n-1 edges(tree)
+
+ways to represent graph
+1. adjancey matrix
+2. edges and list 
+
+V = {0, 1, 2, 3}
+E = [(0,1)(0, 2)(0, 3) (1, 2) ....]
+3. adjancey list
+0->1,2
+1->2
+2->1, 3
+...
+
+4. implicit graph
+2d matrix
+
+
+
+=> distance from source to dest in unweighted graph can be calucluated with bfs
+snakes and ladders leetcode
+
+dfs forest - group of connected graphs
+
+
+dijkistra 
+priority queue has not the option to update so we use set for storing distance;
+
+
+
+spanning trees
+it is a tree made from subset of edges that connects all the vertices of graph i.e graph forms a 
+single connected component without forming a cycle contains n-1 edges where n is number of vertices
+
+
+algo
+
+1. kruskal algorithm (greedy algo)
+2. prims' algorithm(greedy algo)
+
+kruskal algo
+edge list graph and DSU(disjoint sets union)
+wwighted undirected graph
+greedy algo
+1. sort all the edges on the basisi of their weight
+2. pick the edges that does not form a cycle
+
+
+
+prims algo
+weighted undirected graph
+greedy algorithm
+
+TERMS
+1. MST set =[] all the nodes that have been implemented in mst till now
+2. active edge = edge from a vertex in MST to V;
+3. MST edge - AN edge that has been included in MST so far
+
+
+algo steps
+1. start from any source vertex.
+2. find the active edges from that source
+3. out of all active edges , pick the one with the smallest weight.
+    - select Y in MST
+    - add edges starting from y in active edge list
+    repeat above steps until all vertices are covered
+
+
+
+time = O(eloge)
+IN FULLY CONNECTED GRAPH THEN 
+if e is propotional to v^2 
+then
+TIME = O(ELOG V)
+
+
+shortest path algorithms
+single source
+1. BFS (unweighted graph)  O(V+E)
+
+BFS can only be used to find shortest path in a graph if:
+
+There are no loops
+
+All edges have same weight or no weight.
+
+2. dijkistra    (weighted, positive weighted , directed and undirected both)  O(ELOG V) 
+
+3. BELLMAN         (weighted, negative+positive weight)  O(VE)
+
+dp based algo
+The Bellman-Ford algorithm works on directed graphs. 
+To make it work with undirected graphs we must make each undirected edge 
+into two directed edges (one in each direction) with the same weights as 
+the original undirected edge. Now any negative weight undirected cycle is 
+transformed into a negative weight directed cycle, and hence would be detected.
+ In any negative weight edge is transformed in a negative weight cycle of length two! 
+ Thus Bellman-Ford will always detect a negative cycle if there is any negative weight edge.
+
+BELLMAN FORD algorithm
+1. INIT DIST[vertices] = INT_MAX , dist[src] = 0
+2. Relax all edges V-1 times  [Most Important]
+relaxation - dist[u] , dist[v] 
+if(dist[v ]> dist[u])+WTuv
+    dist[V] = dist[u] + wt
+
+
+
+3. negative weight cycle detection
+
+
+
+FLOYD WARSHALL algorithm
+- all pair shortest path 
+- shortest between pair of vertices
+- work with negative edges
+- can detect negative cycles too, with one extra steps
+- dp based algo - > O(n3) n vertices
+
+
+HAMILTONINA cycle
+SET OF EDGES that every node is visited once and we came back to starting node.
+
+output of tsp
+min weight HAMILTONINAn cycle
+ 
+
+
+
+
+graph with n nodes and n-1 edges - tree => no cycle is in the graph
+
+
+bipartite graph
+- you can divide all vertices of graph in 2 sets
+- such that all edges of the graph are form set 1 to set2
+
+two coloring 
+if the cycle is not present in a graph then it will always be bipartite
+
+if the graph has a cycle of odd nuber of nodes then it will be not bipartite graph
+
+
+
+
+1.strongly connected component(ssc)
+subset of graph in which if we start from any node we can reach any other node
+
+
+Kosaraju's algorithm
+1. dfs on graph get an ordering based upon finish time
+finish time is define as the time to come back to same node from we started.
+2. reverse the orginal graph i.e reverse all the edges of the graph
+3. do dfs from r to l as given in ordering list.
+
+
+
+
+some points
+If we use trees with the union-by-rank algorithm, 
+the worst case running time for checking if two elements are in same set or not O(logN)
+
+https://www.geeksforgeeks.org/gate-gate-cs-2001-question-40/#:~:text=How%20many%20undirected%20graphs%20(not,vn%7D%20of%20n%20vertices%3F&text=(C)%20n!&text=Explanation%3A%20There%20are%20total%20n,1)%2F2%20possible%20edges.
+
+Two graphs which contain the same number of graph vertices connected 
+in the same way are said to be isomorphic. Formally, two graphs and with graph vertices are said 
+to be isomorphic 
+if there is a permutation of such that is in the set of graph edges iff is in the set of graph edges .

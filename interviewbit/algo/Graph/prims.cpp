@@ -11,6 +11,24 @@ void ReadCP()
 #endif
 }
 
+/*prims algo
+weighted undirected graph
+greedy algorithm
+
+TERMS
+1. MST set =[] all the nodes that have been implemented in mst till now
+2. active edge = edge from a vertex in MST to V;
+3. MST edge - AN edge that has been included in MST so far
+
+
+algo steps
+1. start from any source vertex.
+2. find the active edges from that source
+3. out of all active edges , pick the one with the smallest weight.
+    - select Y in MST
+    - add edges starting from y in active edge list
+    repeat above steps until all vertices are covered*/
+
 class Graph{
     int V;
     vector<pair<int, int>> *l;

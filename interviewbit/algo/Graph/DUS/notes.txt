@@ -1,0 +1,8 @@
+DUS (DISJOINT UNION SET)/UNION
+find element - find in which set element is present.
+UNION - merge two sets into one
+
+
+optimisation techniques for find and union operation
+1.path compression
+2. union by rank

@@ -22,6 +22,8 @@ int dist[10][10] = {
 
 // if all cities have been visited
 int visited_all = (1<<n) -1;
+
+
 int tsp (int mask, int pos){
 
     if(mask == visited_all){

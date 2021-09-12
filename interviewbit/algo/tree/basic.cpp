@@ -13,7 +13,9 @@ using namespace std;
 #define psi pair<string, int>
 #define pis pair<int, string>
 #define vp vector<pair<int, int>>
-
+#define Node node
+#define newNode node
+#define key data
 void ReadCP()
 {
 #ifndef ONLINE_JUDGE
@@ -233,19 +235,33 @@ int sum(node *root)
         return 0;
     return sum(root->left) + sum(root->right) + root->data;
 }
-// int diameter(node *root){
-//     if(root == null)
-//         return 0;
 
-//     int h1 = height(root->left);
-//     int h2 = height(root->right);
+//o(n) // O(h) space for call stack
+int height(node* root, int& ans)
+{
+    if (root == NULL)
+        return 0;
+ 
+    int left_height = height(root->left, ans);
+ 
+    int right_height = height(root->right, ans);
+ 
+    // update the answer, because diameter of a
+    // tree is nothing but maximum value of
+    // (left_height + right_height + 1) for each node
+    ans = max(ans, 1 + left_height + right_height);
+ 
+    return 1 + max(left_height, right_height);
+    }
+ 
+int diameterOfBinaryTree(node* root) {
+    if (root == NULL)
+    return 0;
+    int ans = INT_MIN; // This will store the final answer
+    height(root, ans);
+    return ans-1;  
+}
 
-//     int op1 = h1+ h2;
-//     int op2 = diameter(root->left);
-//     int op3 = diameter(root->right);
-//     return max(op1, max(op2, op3));
-
-// }
 class Diameter{
     public:
         int height;
@@ -278,33 +294,62 @@ int replaceSumWithSumofChildNodes(node *&root)
     root->data = replaceSumWithSumofChildNodes(root->left) + replaceSumWithSumofChildNodes(root->right);
     return temp + root->data;
 }
-// check tree is height balanced or not
-class HBPair{
-    public:
-    int height;
-    int balance;
 
-};
-HBPair isHeightBalanced(node *root){
-    HBPair p;
-    if(root == null){
-        p.height =0;
-        p.balance = true;
-        return p;
+// Recursive function to check if a given binary tree is height-balanced or not
+int isHeightBalanced(Node* root, bool &isBalanced)
+{
+    // base case: tree is empty or not balanced
+    if (root == nullptr || !isBalanced) {
+        return 0;
     }
-
-    HBPair left, right;
-    left = isHeightBalanced(root->left);
-    right = isHeightBalanced (root->right);
-
-
-    p.height = max(left.height , right.height) + 1;
-    if(abs(left.height - right.height )<=1 && left.balance && right.balance)
-        p.balance= true;
-    else
-        p.balance = false;
-    return p;
+    // get the height of the left subtree
+    int left_height = isHeightBalanced(root->left, isBalanced);
+    // get the height of the right subtree
+    int right_height = isHeightBalanced(root->right, isBalanced);
+    // tree is unbalanced if the absolute difference between the height of
+    // its left and right subtree is more than 1
+    if (abs(left_height - right_height) > 1) {
+        isBalanced = false;
+    }
+    // return height of subtree rooted at the current node
+    return max(left_height, right_height) + 1;
 }
+ 
+// The main function to check if a given binary tree is height-balanced or not
+bool isHeightBalanced(Node* root)
+{
+    bool isBalanced = true;
+    isHeightBalanced(root, isBalanced);
+ 
+    return isBalanced;
+}
+// // check tree is height balanced or not
+// class HBPair{
+//     public:
+//     int height;
+//     int balance;
+
+// };
+// HBPair isHeightBalanced(node *root){
+//     HBPair p;
+//     if(root == null){
+//         p.height =0;
+//         p.balance = true;
+//         return p;
+//     }
+
+//     HBPair left, right;
+//     left = isHeightBalanced(root->left);
+//     right = isHeightBalanced (root->right);
+
+
+//     p.height = max(left.height , right.height) + 1;
+//     if(abs(left.height - right.height )<=1 && left.balance && right.balance)
+//         p.balance= true;
+//     else
+//         p.balance = false;
+//     return p;
+// }
 
 // build Height Balanced Tree
 node *buildTreeFromArray(vector<int>ar, int s, int e){
@@ -318,7 +363,7 @@ node *buildTreeFromArray(vector<int>ar, int s, int e){
 
     return root;
 }
-
+//O(n2) creater tree from preorder
 node *CreateTreeFromTrav(vector<int>in, vector<int>pre,int s, int e){
     static int i =0;
     if(s > e)
@@ -339,6 +384,75 @@ node *CreateTreeFromTrav(vector<int>in, vector<int>pre,int s, int e){
     return root;
 
 }
+
+
+// Recursive function to construct a binary tree from a given
+// inorder and preorder sequence O(n) 
+// O(n) for hashign and recursion
+/* 
+struct Node
+{
+    int key;
+    Node *left, *right;
+};
+ 
+Function to create a new binary tree node having a given key
+Node* newNode(int key)
+{
+    Node* node = new Node;
+    node->key = key;
+    node->left = node->right = nullptr;
+ 
+    return node;
+}
+Node* construct(int start, int end, vector<int> const &preorder,
+                int &pIndex, unordered_map<int, int> &map)
+{
+    // base case
+    if (start > end) {
+        return nullptr;
+    }
+ 
+    // The next element in `preorder[]` will be the root node of subtree
+    // formed by sequence represented by `inorder[start, end]`
+    Node *root = newNode(preorder[pIndex++]);
+ 
+    // get the root node index in sequence `inorder[]` to determine the
+    // left and right subtree boundary
+    int index = map[root->key];
+ 
+    // recursively construct the left subtree
+    root->left = construct(start, index - 1, preorder, pIndex, map);
+ 
+    // recursively construct the right subtree
+    root->right = construct(index + 1, end, preorder, pIndex, map);
+ 
+    // return current node
+    return root;
+}
+ 
+Construct a binary tree from inorder and preorder traversals.
+This function assumes that the input is valid
+i.e., given inorder and preorder sequence forms a binary tree
+Node* construct(vector<int> const &inorder, vector<int> const &preorder)
+{
+    // get the total number of nodes in the tree
+    int n = inorder.size();
+ 
+    // create a map to efficiently find the index of any element in
+    // a given inorder sequence
+    unordered_map<int, int> map;
+    for (int i = 0; i < n; i++) {
+        map[inorder[i]] = i;
+    }
+ 
+    // `pIndex` stores the index of the next unprocessed node in preorder;
+    // start with the root node (present at 0th index)
+    int pIndex = 0;
+ 
+    return construct(0, n - 1, preorder, pIndex, map);
+}
+*/
 
 void RightViewBinaryTree(node *root, int level, int &maxLevel){
     if(root == null)
@@ -366,58 +480,240 @@ void LeftViewBinaryTree(node *root, int level, int &maxLevel){
     LeftViewBinaryTree(root->right, level + 1, maxLevel);
 
 }
-void PrintATLevelK(node *root, int k){
-     if (root == null)
-    {
+
+// Recursive function to perform preorder traversal on the tree and fill the map.
+// Here, the node has `dist` horizontal distance from the tree's root,
+// and the `level` represents the node's level.
+// use unordred map
+ void printBottom(Node* node, int dist, int level, auto &map)
+{
+    // base case: empty tree
+    if (node == nullptr) {
         return;
     }
-
-    if (k == 0)
+ 
+    // if the current level is more than or equal to the maximum level seen so far
+    // for the same horizontal distance or horizontal distance is seen for
+    // the first time, update the map
+ 
+    if (level >= map[dist].second)
     {
-        cout << root->data << " ";
-        return;
+        // update value and level for the current distance
+        map[dist] = { node->key, level };
     }
-
-    PrintATLevelK(root->left, k - 1);
-    PrintATLevelK(root->right, k - 1);
-    return;
+ 
+    // recur for the left subtree by decreasing horizontal distance and
+    // increasing level by 1
+    printBottom(node->left, dist - 1, level + 1, map);
+ 
+    // recur for the right subtree by increasing both level and
+    // horizontal distance by 1
+    printBottom(node->right, dist + 1, level + 1, map);
 }
-int PrintAtDistanceK(node *root, node *target, int k){
-    if(root == null)
-        return -1;
-    
-    if(root == target)
-    {
-        PrintATLevelK(target, k);
-        return 0;
-    }
-    int dl = PrintAtDistanceK(root->left, target, k);
-    if(dl != -1){
-        if(dl + 1 ==k){
-            cout<<root->data<<" ";
+ 
 
+// Function to print the bottom view of a given binary tree
+void printBottom(Node* root)
+{
+    // create an empty map where
+    // `key` —> relative horizontal distance of the node from the root node, and
+    // `value` —> pair containing the node's value and its level
+ 
+    map<int, pair<int, int>> map;
+ 
+    // perform preorder traversal on the tree and fill the map
+    printBottom(root, 0, 0, map);
+ 
+    // traverse the map and print the bottom view
+    for (auto it: map) {
+        cout << it.second.first << " ";
+    }
+}
+
+
+// Recursive function to perform preorder traversal on the tree and fill the map.
+// Here, the node has `dist` horizontal distance from the tree's root,
+// and the level represents the node's level.
+void printTop(Node* root, int dist, int level, map<int, pair<int, int>> &map)
+{
+    // base case: empty tree
+    if (root == nullptr) {
+        return;
+    }
+ 
+    // if the current level is less than the maximum level seen so far
+    // for the same horizontal distance, or if the horizontal distance
+    // is seen for the first time, update the map
+    if (map.find(dist) == map.end() || level < map[dist].second)
+    {
+        // update value and level for current distance
+        map[dist] = { root->key, level };
+    }
+ 
+    // recur for the left subtree by decreasing horizontal distance and
+    // increasing level by 1
+    printTop(root->left, dist - 1, level + 1, map);
+ 
+    // recur for the right subtree by increasing both level and
+    // horizontal distance by 1
+    printTop(root->right, dist + 1, level + 1, map);
+}
+ 
+// Function to print the top view of a given binary tree
+void printTop(Node* root)
+{
+    // create an empty map where
+    // `key` —> relative horizontal distance of the node from the root node, and
+    // `value` —> pair containing the node's value and its level
+    map<int, pair<int, int>> map;
+ 
+    // perform preorder traversal on the tree and fill the map
+    printTop(root, 0, 0, map);
+ 
+    // traverse the map and print the top view
+    for (auto it: map) {
+        cout << it.second.first << " ";
+    }
+}
+
+// Recursive function to perform preorder traversal on the tree and
+// fill the map with diagonal elements
+void printDiagonal(Node* node, int diagonal, auto &map)
+{
+    // base case: empty tree
+    if (node == nullptr) {
+        return;
+    }
+ 
+    // insert the current node into the current diagonal
+    map[diagonal].push_back(node->data);
+ 
+    // recur for the left subtree by increasing diagonal by 1
+    printDiagonal(node->left, diagonal + 1, map);
+ 
+    // recur for the right subtree with the same diagonal
+    printDiagonal(node->right, diagonal, map);
+}
+ 
+// Function to print the diagonal elements of a given binary tree
+void printDiagonal(Node* root)
+{
+    // create an empty map to store the diagonal element in every slope
+    unordered_map<int, vector<int>> map;
+ 
+    // perform preorder traversal on the tree and fill the map
+    printDiagonal(root, 0, map);
+ 
+    // traverse the map and print the diagonal elements
+    int temp = 0;
+ 
+    for (int i = 0; i < map.size(); i++)
+    {
+        for (int i: map[i]) {
+            cout << i << ' ';
+        }
+        cout << endl;
+    }
+}
+
+
+
+#define node TreeNode
+#define data val
+#define null NULL
+/*
+vector<vector<int> >zigzagLevelOrder(TreeNode* root) {
+    bool flag = false;
+    vector<vector<int>>ans;
+    queue<node*>q;
+    q.push(root);
+    while(!q.empty()){
+        int  n =q.size();
+        vector<int>temp;
+        while(n){
+            node *f = q.front();
+            q.pop();
+            
+            temp.push_back(f->data);
+            if(f->left)
+                q.push(f->left);
+            if(f->right)
+                q.push(f->right);
+            n--;
+        }
+        
+        if(flag){
+            flag = false;
+            reverse(temp.begin(), temp.end());
+            ans.push_back(temp);
         }
         else{
-            PrintATLevelK(root, k-2 -dl);
-        }
-        return dl + 1;
-    }
-    int dr = PrintAtDistanceK(root->right, target, k);
-    if (dr != -1)
-    {
-        if (dr + 1 == k)
-        {
-            cout << root->data << " ";
-        }
-        else
-        {
-            PrintATLevelK(root->right, k - 2 - dr);
-        }
-        return dr + 1;
-    }
-    return -1;
+            flag = true;
+            ans.push_back(temp);
+        }        
+    } 
+    return ans;
+} */
 
-}
+
+
+#define null NULL
+#define  val data 
+#define TreeNode node 
+class Solution {
+public:
+    map<int, list<int>>graph;
+    vector<int> ans;
+    void buildGraph(node *root, node *parent){
+        if(root == null)
+            return;
+        
+        if(!graph.count(root->val)){
+            if(parent){
+                graph[root->val].push_back(parent->val);
+                graph[parent->val].push_back(root->val);
+            }
+        }
+        buildGraph(root->left, root);
+        buildGraph(root->right, root);
+    }
+    void bfs(node *root, int k){
+        queue<int>q;
+        map<int, bool>visited;
+        int depth =0;
+        if(k == 0)
+        {
+            ans.push_back(root->val);
+            return;
+        }
+        q.push(root->val);
+        while(!q.empty()){
+            depth = depth+1;
+            int q_size = q.size();
+            for (int i=0 ; i<q_size;i++) {
+                int curr_node = q.front();
+                visited[curr_node] = true;
+                q.pop();
+                for (int neighbour :graph[curr_node]) {
+                    if (! visited.count(neighbour)) {
+                        if (depth == k) 
+                            ans.push_back(neighbour);
+                        else 
+                            q.push(neighbour);
+                    }
+                }
+            }
+            if (depth == k) 
+                return;
+                
+        }
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        buildGraph(root, null);
+        bfs(target, k);
+        return ans;
+    }
+};
 
 
 node *lca(node *root,int a, int b){
@@ -444,39 +740,106 @@ node *lca(node *root,int a, int b){
 
 
 // max sum path from any node to any node  difficult one
-class Pair
+//O(n) o(h)
+int findMaxPathSum(Node* node, int &result)
 {
-public:
-    int branchSum;
-    int maxSum;
-    Pair()
-    {
-        branchSum = 0;
-        maxSum = 0;
+    // base case: empty tree
+    if (node == nullptr) {
+        return 0;
     }
-};
-
-Pair maxSumPath(node *root){
-    Pair p;
-    if(root == null)
-        return p;
-
-    Pair left = maxSumPath(root->left);
-    Pair right = maxSumPath (root->right);
-
-    int op1 = root->data;
-    int op2 = left.branchSum + root->data;
-    int op3 = right.branchSum + root->data;
-    int op4 = left.branchSum + right.branchSum + root->data;
-
-    int current_ans = max(op1,max(op2, max(op3, op4)));
-    p.branchSum = max(left.branchSum , max(right.branchSum , 0)) + root->data;
-    p.maxSum = max(left.maxSum , max(right.maxSum , 0)) + root->data;
-    return p;
+ 
+    // find maximum path sum "starting" from the left child
+    int left = findMaxPathSum(node->left, result);
+ 
+    // find maximum path sum "starting" from the right child
+    int right = findMaxPathSum(node->right, result);
+ 
+    // Try all possible combinations to get the optimal result
+    result = max(result, node->data);
+    result = max(result, node->data + left);
+    result = max(result, node->data + right);
+    result = max(result, node->data + left + right);
+ 
+    // return the maximum path sum "starting" from the given node
+    return max(node->data, node->data + max(left, right));
 }
+// class Pair
+// {
+// public:
+//     int branchSum;
+//     int maxSum;
+//     Pair()
+//     {
+//         branchSum = 0;
+//         maxSum = 0;
+//     }
+// };
+
+// Pair maxSumPath(node *root){
+//     Pair p;
+//     if(root == null)
+//         return p;
+
+//     Pair left = maxSumPath(root->left);
+//     Pair right = maxSumPath (root->right);
+
+//     int op1 = root->data;
+//     int op2 = left.branchSum + root->data;
+//     int op3 = right.branchSum + root->data;
+//     int op4 = left.branchSum + right.branchSum + root->data;
+
+//     int current_ans = max(op1,max(op2, max(op3, op4)));
+//     p.branchSum = max(left.branchSum , max(right.branchSum , 0)) + root->data;
+//     p.maxSum = max(left.maxSum , max(right.maxSum , 0)) + root->data;
+//     return p;
+// }
+
+
+// Recursive function to find the maximum sum path between two leaves
+// in a binary tree
+int findMaxSumPath(Node* root, int &max_sum)
+{
+    // base case: empty tree
+    if (root == nullptr) {
+        return 0;
+    }
+ 
+    // find the maximum sum node-to-leaf path starting from the left child
+    int left = findMaxSumPath(root->left, max_sum);
+ 
+    // find the maximum sum node-to-leaf path starting from the right child
+    int right = findMaxSumPath(root->right, max_sum);
+ 
+    // it is important to return the maximum sum node-to-leaf path starting from the
+    // current node
+ 
+    // case 1: left child is null
+    if (root->left == nullptr) {
+        return right + root->data;
+    }
+ 
+    // case 2: right child is null
+    if (root->right == nullptr) {
+        return left + root->data;
+    }
+ 
+    // find the maximum sum path "through" the current node
+    int cur_sum = left + right + root->data;
+ 
+    // update the maximum sum path found so far (Note that maximum sum path
+    // "excluding" the current node in the subtree rooted at the current node
+    // is already updated as we are doing postorder traversal)
+ 
+    max_sum = max(cur_sum, max_sum);
+ 
+    // case 3: both left and right child exists
+    return max(left, right) + root->data;
+}
+
 
 // shortest distance between 2 nodes
 // finding the level of given level
+//O(n)// O(h)
 int search(node *root, int key, int level)
 {
     if (root == null)
@@ -508,10 +871,93 @@ int findDistance(node *root, int a, int b)
     return l1 + l2;
 }
 
-
-void diagonal_traversal(node *root){
+#define node TreeNode
+#define data val
+#define null NULL
+vector<vector<int> >zigzagLevelOrder(TreeNode* root) {
+    bool flag = false;
+    vector<vector<int>>ans;
+    queue<node*>q;
+    q.push(root);
+    while(!q.empty()){
+        int  n =q.size();
+        vector<int>temp;
+        while(n){
+            node *f = q.front();
+            q.pop();
+            
+            temp.push_back(f->data);
+            if(f->left)
+                q.push(f->left);
+            if(f->right)
+                q.push(f->right);
+            n--;
+        }
+        
+        if(flag){
+            flag = false;
+            reverse(temp.begin(), temp.end());
+            ans.push_back(temp);
+        }
+        else{
+            flag = true;
+            ans.push_back(temp);
+        }
+        
+        
+        
+        
+        
+    }
     
+    return ans;
 }
+
+// Recursive function to perform preorder traversal on the tree and fill the map.
+// Here, the node has `dist` horizontal distance from the tree's root
+void printVertical(Node* node, int dist, auto &map)
+{
+    // base case: empty tree
+    if (node == nullptr) {
+        return;
+    }
+ 
+    // insert nodes present at a current horizontal distance into the map
+    map.insert(make_pair(dist, node->data));
+ 
+    // recur for the left subtree by decreasing horizontal distance by 1
+    printVertical(node->left, dist - 1, map);
+ 
+    // recur for the right subtree by increasing horizontal distance by 1
+    printVertical(node->right, dist + 1, map);
+}
+ 
+// Function to perform vertical traversal on a given binary tree
+void printVertical(Node* root)
+{
+    // create an empty map where
+    // `key` —> relative horizontal distance of the node from the root node, and
+    // `value` —> nodes present at the same horizontal distance
+    multimap<int, int> map;
+ 
+    /* We can also use `map<int, vector<int>>` instead of `multimap<int, int>` */
+ 
+    // perform preorder traversal on the tree and fill the map
+    printVertical(root, 0, map);
+ 
+    // traverse the map and print the vertical nodes
+    int temp = 0;
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        if (temp != it->first)
+        {
+            cout << endl;
+            temp = it->first;
+        }
+        cout << it->second << " ";
+    }
+}
+ 
 int main()
 {
     ios_base::sync_with_stdio(false);
