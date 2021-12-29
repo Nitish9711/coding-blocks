@@ -31,28 +31,32 @@ ll countDigit(ll x)
     }
     return ans;
 }
-void solve(ll xx1, ll xx2, ll pp1, ll pp2)
-{
-
-    string a = to_string(xx1);
-    string b = to_string(xx2);
-    string c = "";
-    for(ll i =0;i<pp1;i++){
-        c += "0";
+void solve(ll x1, ll x2, ll p1, ll p2)
+{   
+    if(to_string(x1).length() + p1 != to_string(x2).length() + p2){
+        cout<<(to_string(x1).length() + p1 > to_string(x2).length() + p2 ? '>': '<')<<endl;
+        // cout<<"went"<<endl;
     }
-    a += c;
-    c = "";
-    for(ll i=0;i<pp2;i++){
-        c += "0";
+    else{
+        while (p1 > p2){
+            p1--;
+            x1= x1*10;
+        }
+        while(p2 > p1){
+            p2--;
+            x2 = x2*10;
+        }
+        if(x1 == x2)
+            cout<<"="<<endl;
+        else if(x1 <x2)
+            cout<<"<"<<endl;
+        else
+            cout<<">"<<endl;
     }
-    b+= c;
 
-    if(a > b)
-        cout<<">"<<endl;
-    else if(a == b)
-        cout<<"="<<endl;
-    else if(a < b)
-        cout<<"<"<<endl;
+
+  
+
 
 }
 int main()

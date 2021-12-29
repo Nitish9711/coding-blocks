@@ -34,7 +34,7 @@ public:
       {
         long long int e=dfs1(i,m);
         long long int y=n-e;
-        cout<<y<<endl;
+        // cout<<y<<endl;
         sum=sum+e*y;
       }
     }
