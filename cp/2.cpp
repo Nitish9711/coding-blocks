@@ -43,6 +43,13 @@ using namespace __gnu_pbds;
 #define pi (D) acos(-1)
 #define md 1000000007
 #define rnd randGen(rng)
+void read()
+{
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+}
 int main()
 {
     mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
@@ -50,18 +57,14 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-    I t;
-    cin >> t;
-    while (t--)
+    read();
+    cin.tie(NULL);
+    int T;
+    cin >> T;
+    for (int i = 1; i <= T; i++)
     {
-        I a, b, c;
-        cin>>a>>b>>c;
-        cout<<a+b+c<<" "<<b+c<<" "<<c<<endl;
         
+        cout << "CASE #" << i << ": " << solve(n) << endl;
     }
     return 0;
 }

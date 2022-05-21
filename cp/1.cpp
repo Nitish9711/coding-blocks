@@ -41,8 +41,11 @@ using namespace __gnu_pbds;
 #define PBS(x) tree<x, null_type, less<I>, rb_tree_tag, tree_order_statistics_node_update>
 #define PBM(x, y) tree<x, y, less<I>, rb_tree_tag, tree_order_statistics_node_update>
 #define pi (D) acos(-1)
-#define md 1000000007
+#define md 998244353
 #define rnd randGen(rng)
+I solve(I n){
+    
+}
 int main()
 {
     mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
@@ -58,6 +61,9 @@ int main()
     cin >> t;
     while (t--)
     {
+        I n;
+        cin>>n;
+        cout<<solve(n)<<endl;
     }
     return 0;
 }

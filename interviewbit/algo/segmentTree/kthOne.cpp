@@ -43,6 +43,56 @@ using namespace __gnu_pbds;
 #define pi (D) acos(-1)
 #define md 1000000007
 #define rnd randGen(rng)
+const I N = 1e5 + 9;
+I a[4*N], tree[4*N] = {0};
+void build(I node, I st, I en){
+    if(st == en){
+        tree[node] = a[st];
+        return;
+    }
+    I mid = (st + en)/2;
+
+    build(2*node, st, mid);
+    build(2*node+1, mid+1, en);
+
+    tree[node] = tree[2*node]  + tree[2*node+1];
+}
+
+I query(I node, I st , I en, I k){
+    if(st == en)
+        return st;
+    
+    I mid = (st + en)/2;
+    if(k < tree[2*node]){
+        return query(2*node, st ,mid, k);
+    }
+    else
+        return query(2*node+1, mid+1, en, k - tree[2*node]);  
+}
+
+void update(I node, I st, I en, I idx){
+    if(st == en){
+        if(a[st] == 0){
+            a[st] = 1;
+            tree[node] = 1;
+        }
+        else{
+            a[st] = 0;
+            tree[node] = 0;
+        }
+        return ;
+    }
+
+    I mid = (st + en)/2;
+    if(idx <=mid){
+        update(2*node, st , mid, idx);
+    }
+    else{
+        update(2*node + 1, mid +1 , en, idx);
+    }
+    tree[node] = tree[2*node] + tree[2*node+1];
+
+}
 int main()
 {
     mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
@@ -54,14 +104,31 @@ int main()
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-    I t;
-    cin >> t;
-    while (t--)
-    {
-        I a, b, c;
-        cin>>a>>b>>c;
-        cout<<a+b+c<<" "<<b+c<<" "<<c<<endl;
-        
-    }
+   
+        I n,q ;
+        cin>>n>>q;
+        for(I i =0;i<n;i++){
+            cin>>a[i];
+        }
+        build(1, 0, n-1);
+        // for(I i = 1;i<=2*n+1;i++){
+        //     cout<<tree[i]<<" ";
+        // }
+        // cout<<endl;
+        // for(I i =1;i<=2*n+1;i++){
+        //     cout<<i<<" ";
+        // }
+        // cout<<endl;
+        while(q--){
+            I i, v;
+            cin>>i>>v;
+            if(i == 1){
+                update(1, 0, n-1, v);
+            }
+            else{
+                cout<<query(1, 0, n-1, v)<<endl;
+            }
+        }
+    
     return 0;
 }

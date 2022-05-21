@@ -100,4 +100,5 @@ void update(ll si, ll ss, ll se, ll qs, ll qe, ll val)
 
 int main()
 {
-return 0;}
+return 0;
+}

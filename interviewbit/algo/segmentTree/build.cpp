@@ -43,6 +43,30 @@ using namespace __gnu_pbds;
 #define pi (D) acos(-1)
 #define md 1000000007
 #define rnd randGen(rng)
+const int N = 1e5 +2;
+I a[N], tree[4*N];
+void build(I node, I st, I en){
+    if(st == en){
+        tree[node] = a[st];
+        return;
+    }
+    I mid = (st + en)/2;
+    build(2*node, st, mid);
+    build (2*node+1, mid+1, en);
+    tree[node] = tree[2*node] + tree[2*node + 1];
+}
+I query(I node , I st, I en, I l, I r){
+    if(st > r || en < l)
+        return 0;
+    if(st >=l && en <=r){
+        return tree[node];
+    }
+    I mid = (st + en)/2;
+    I q1 = query(2*node, st, mid, l, r);
+    I q2 = query(2*node + 1, mid+1, en, l, r);
+    return q1 + q2;
+}
+
 int main()
 {
     mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
@@ -50,18 +74,20 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-    I t;
-    cin >> t;
-    while (t--)
-    {
-        I a, b, c;
-        cin>>a>>b>>c;
-        cout<<a+b+c<<" "<<b+c<<" "<<c<<endl;
-        
+// #ifndef ONLINE_JUDGE
+//     freopen("input.txt", "r", stdin);
+//     freopen("output.txt", "w", stdout);
+// #endif
+    vector<int>ar = {5, 3, 2, 4, 1, 8, 6, 10};
+    I n = ar.size();
+
+    for(int i=0;i<n;i++){
+        a[i] = ar[i];
+
     }
+    build(1, 0, n-1);
+    
+    cout<<query(1, 0, n-1, 0, 7)<<endl;
+    
     return 0;
 }
