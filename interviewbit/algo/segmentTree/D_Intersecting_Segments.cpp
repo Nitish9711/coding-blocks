@@ -73,7 +73,7 @@ signed main()
     vector<int> ans(n);
  
     for(int i=0; i<n; i++){
-        ans[t[i].idx-1] = (t[i].r-t[i].l) - 2*query(1,0,2*n-1, t[i].l, t[i].r)-1;
+        ans[t[i].idx-1] = (t[i].r-t[i].l) -1- 2*query(1,0,2*n-1, t[i].l, t[i].r);
 
         update(1,0,2*n-1,t[i].l, 1);
     }

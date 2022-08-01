@@ -26,7 +26,7 @@ void ReadCP()
 }
 vl tree(400005);
 vl ar(100005);
-vl lazy(100005);
+vl lazy(100005, 0);
 
 void buildTree(ll si, ll ss, ll se)
 {
@@ -49,7 +49,7 @@ ll query(ll si, ll ss, ll se, ll qs, ll qe)
         lazy[si] = 0;
         tree[si] += dx * (se - ss + 1);
         if (ss != se)
-            lazy[2 * si] += dx, lazy[2 * si + 1] = dx;
+            lazy[2 * si] += dx, lazy[2 * si + 1] += dx;
     }
     if (ss > qe || se < qs)
         return 0;
@@ -76,7 +76,7 @@ void update(ll si, ll ss, ll se, ll qs, ll qe, ll val)
         // update the tree
         tree[si] += dx * (se - ss + 1);
         if (ss != se)
-            lazy[2 * si] += dx, lazy[2 * si + 1] = dx;
+            lazy[2 * si] += dx, lazy[2 * si + 1] += dx;
     }
 
     // no overlap
@@ -100,5 +100,6 @@ void update(ll si, ll ss, ll se, ll qs, ll qe, ll val)
 
 int main()
 {
-return 0;
+    
+    return 0;
 }

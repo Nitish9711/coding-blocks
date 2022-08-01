@@ -43,64 +43,63 @@ using namespace __gnu_pbds;
 #define pi (D) acos(-1)
 #define md 1000000007
 #define rnd randGen(rng)
-#define int long long
 
-#define int long long
-#define N 100010
-using namespace std;
-int read()
+// I a[100000] = {0};
+void update(I i, I val,I bit[], I N)
 {
-    int x = 0, f = 1;
-    char c = getchar();
-    while (c < 48)
+    while (i <= N)
     {
-        if (c == '-')
-            f = 0;
-        c = getchar();
+        bit[i] += val;
+        i += (i & (-i));
     }
-    while (c >= 48)
-        x = (x << 3) + (x << 1) + (c ^ 48), c = getchar();
-    return f ? x : -x;
 }
-
-int n, m, k;
-int a[N];
-bool check(int n, int m)
+I query(I bit[], I i)
 {
-    int s = 0;
-    for (int i = 1; i <= k; i++)
+    I ans = 0;
+    while (i > 0)
     {
-        int val = a[i] / n;
-        if (val < 2)
-            return 0;
-        s += val;
-        if (s >= m && 2 * i <= m)
-            return 1;
+        ans += bit[i];
+        i -= (i & (-i));
     }
-    return 0;
+    return ans;
 }
-
-
-signed main()
+int main()
 {
-    int t;
+    mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+    uniform_int_distribution<I> randGen;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    I t;
     cin >> t;
     while (t--)
     {
-         n = read();
-    int cnt =0;
-    for(int i=0;i<1000;i++)
-        cnt++;
-    m = read();
-    k = read();
-    for (int i = 1; i <= k; i++)
-        a[i] = read();
-    sort(a + 1, a + k + 1);
-    reverse(a + 1, a + k + 1);
-    if (check(n, m) || check(m, n))
-        cout << "Yes" << endl;
-    else
-        cout << "No" << endl;
+        I n, u;
+        cin >> n >> u;
+        I bit[n+10] = {0};
+        while (u--)
+        {
+            I a, b, x;
+            cin >> a >> b >> x;
+            a++;
+            b++;
+            update(a, x, bit, n);
+            update(b+1, -x,bit, n);
+            
+        }
+
+        I q;
+        cin>>q;
+        while(q--){
+            I idx;
+            cin>>idx;
+            idx++;
+            cout<<query(bit, idx)<<endl;
+        }
     }
     return 0;
 }

@@ -1,0 +1,11 @@
+Lazy Propation in segment tree
+- optimisation to do range update in segment tree in o(log n) time
+- idea : Postpone the update to descendants of a node until the descendants themselves need to be accessed.
+
+
+Persistent Data Structure - ds that retian all the modification that take place on the ds
+Persistent - to retail
+example problem
+Given a linked list there are two operations
+1. update inital x values in the linked list
+2. print the linked list after the kth update

@@ -43,64 +43,67 @@ using namespace __gnu_pbds;
 #define pi (D) acos(-1)
 #define md 1000000007
 #define rnd randGen(rng)
-#define int long long
-
-#define int long long
-#define N 100010
-using namespace std;
-int read()
-{
-    int x = 0, f = 1;
-    char c = getchar();
-    while (c < 48)
-    {
-        if (c == '-')
-            f = 0;
-        c = getchar();
+const int N = 1e5 +2;
+I a[N], tree[4*N];
+void build(I node, I st, I en){
+    if(st == en){
+        tree[node] = a[st];
+        return;
     }
-    while (c >= 48)
-        x = (x << 3) + (x << 1) + (c ^ 48), c = getchar();
-    return f ? x : -x;
+    I mid = (st + en)/2;
+    build(2*node, st, mid);
+    build (2*node+1, mid+1, en);
+    tree[node] = tree[2*node] + tree[2*node + 1];
 }
-
-int n, m, k;
-int a[N];
-bool check(int n, int m)
-{
-    int s = 0;
-    for (int i = 1; i <= k; i++)
-    {
-        int val = a[i] / n;
-        if (val < 2)
-            return 0;
-        s += val;
-        if (s >= m && 2 * i <= m)
-            return 1;
+I query(I node , I st, I en, I l, I r){
+    if(st > r || en < l)
+        return 0;
+    if(st >=l && en <=r){
+        return tree[node];
     }
-    return 0;
+    I mid = (st + en)/2;
+    I q1 = query(2*node, st, mid, l, r);
+    I q2 = query(2*node + 1, mid+1, en, l, r);
+    return q1 + q2;
 }
-
-
-signed main()
-{
-    int t;
-    cin >> t;
-    while (t--)
-    {
-         n = read();
-    int cnt =0;
-    for(int i=0;i<1000;i++)
-        cnt++;
-    m = read();
-    k = read();
-    for (int i = 1; i <= k; i++)
-        a[i] = read();
-    sort(a + 1, a + k + 1);
-    reverse(a + 1, a + k + 1);
-    if (check(n, m) || check(m, n))
-        cout << "Yes" << endl;
-    else
-        cout << "No" << endl;
+void update(I node, I st, I en, I l, I r, I val){
+    //out of bounds
+    if(l >en || r< st){
+        return;
     }
+
+    if(st == en){
+        a[st] == val;
+        tree[node] = val;
+        return;  
+    }
+    I mid = (st + en)/2;
+    
+    update(2*node, st, mid, l, r, val);
+    update(2*node+1, mid+1, en, l, r, val);
+    tree[node] = tree[2*node] + tree[2*node+1];
+}
+int main()
+{
+    mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+    uniform_int_distribution<I> randGen;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+// #ifndef ONLINE_JUDGE
+//     freopen("input.txt", "r", stdin);
+//     freopen("output.txt", "w", stdout);
+// #endif
+    vector<int>ar = {5, 3, 2, 4, 1, 8, 6, 10};
+    I n = ar.size();
+
+    for(int i=0;i<n;i++){
+        a[i] = ar[i];
+
+    }
+    build(1, 0, n-1);
+    
+    cout<<query(1, 0, n-1, 0, 7)<<endl;
+    
     return 0;
 }

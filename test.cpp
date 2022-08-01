@@ -2,35 +2,57 @@
 
 using namespace std;
 
-void change(char input[])
+// classes
+player
+    name 
+    scores
+quiz
 {
-    int len = strlen(input);
-    static int i = 0;
-    if(len == 0)
-        return;
-    if(input[i] == '\0')
-        return;
-    if(input[i] == 'x')
-    {
-        for(int j = i;j<len;j++)
-            input[j] = input[j+1];
-        
-        i++;
-        change(input);
+    winner
+    no of palyers
+    vector<palyer>playerList;
+    vector<question>questionList;
+    vector<bool>q;
+    bool mode = "roundRobin";// "fastestFingerFirst"
+    quiz(mode, questionBank, playerLIst){
+
     }
-    else
-    {
-        i++;
-        change(input);        
+    int i =0;
+
+    void playQuiz(ques){
+
     }
-    
+
+    void answer(palyer, ans){
+        correct 
+    }
 }
+
+question
+    string ques;
+    string op1;
+    string op2;
+    string op3;
+    string op4;
+    stirng ans;
+    int point
+    
+questionBank
+    vector<question>questionList;
+    int point    
+    add(question q){
+
+    }
+
+
+
+
+
 int main()
 {
-    char a[] ="xx";
-    change(a);
-    // a[1] = '\0';
-    cout<<a<<endl;
    
+
+
+
     return 0;
 }

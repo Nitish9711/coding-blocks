@@ -1,0 +1,1 @@
+{"name":"Local: InversionCountBIT","url":"d:\\coding-blocks\\interviewbit\\algo\\fenwickTree\\InversionCountBIT.cpp","tests":[{"id":1653141735143,"input":"2\n\n3\n3\n1\n2\n\n5\n2\n3\n8\n6\n1","output":"2\n5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\coding-blocks\\interviewbit\\algo\\fenwickTree\\InversionCountBIT.cpp","group":"local","local":true}

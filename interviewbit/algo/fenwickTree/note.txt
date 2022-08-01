@@ -1,0 +1,8 @@
+same work as fenwick tree but it is faster and takes less memory almost proptional to N
+
+coordinate Compression
+If we are given an array with large values of each elementa and we only need only relativity between the elements not the actual element.
+then we can do 
+suppose we are given 
+100, 99 ,82, 11, 97, 100 => 5, 4, 2, 1, 3, 5
+ taskkill -im rangeUpdateAndPointQuery.exe -f
