@@ -80,10 +80,9 @@ void merge(int ar[], int s, int e){
     int mid = (s+e)/2;
     int i = s;
     int j = mid+1;
-    int k = s;
     // int temp[500];
     int temp[e-s+1];
-    k =0;
+   int  k =0;
     while(i<=mid && j <=e){
         if(ar[i] < ar[j]){
             temp[k++] = ar[i++];
@@ -257,6 +256,7 @@ int partition(int a[], int start, int end)
             pIndex++;
         }
     }
+    // 
     // swap `pIndex` with pivot
     swap (a[pIndex], a[end]);
     // return `pIndex` (index of the pivot element)

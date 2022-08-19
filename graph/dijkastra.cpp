@@ -62,7 +62,7 @@ class Graph{
             s.erase(s.begin());
 
             for(auto child: um[node]){
-                if(nodeDist + child.second < dist[child.first]){
+                if(nodeDist + child. second < dist[child.first]){
                     T dest = child.first;
                     auto f = s.find(make_pair(dist[dest], dest));
                     if(f!= s.end()){

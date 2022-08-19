@@ -43,64 +43,95 @@ using namespace __gnu_pbds;
 #define pi (D) acos(-1)
 #define md 1000000007
 #define rnd randGen(rng)
-#define int long long
-
-#define int long long
-#define N 100010
-using namespace std;
-int read()
+void readme()
 {
-    int x = 0, f = 1;
-    char c = getchar();
-    while (c < 48)
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+}
+I solve2(I a, I b, I c, I d)
+{
+    if (a * d == b * c)
+        return 0;
+
+    I mul1 = a * d;
+    I mul2 = b * c;
+    if (mul1 != 0 && mul2 % mul1 == 0)
+        return 1;
+    else if (mul2 != 0 && mul1 % mul2 == 0)
+        return 1;
+    return 2;
+}
+I solve3(V(I) ar, I n)
+{
+    sort(ar.begin(), ar.end());
+    I ans = 0;
+    ans += ar[n - 1];
+    ans += ar[n - 2];
+    I ans2 = ar[0] + ar[1];
+    return ans - ans2;
+}
+bool class1;
+bool class2;
+V(I) dx={1,0,0,-1,1,-1,1,-1}; 
+V(I) dy={0,-1,1,0,1,-1,-1,1};  
+I solve(V(string) ar, I n, I m)
+{
+    class1 = false;
+    class2 = false;
+    I ans = 0;
+
+    I i, j;
+    for (i = 0; i < n; i++)
     {
-        if (c == '-')
-            f = 0;
-        c = getchar();
+        for (j = 0; j < m; j++)
+        {
+            if (ar[i][j] == '0')
+            {
+                class1 = true;
+                for (I k = 0; k < 8; k++)
+                {
+                    I x = i + dx[k];
+                    I y = j + dy[k];
+                    if (x < n && x >= 0 && y >= 0 && y < m && ar[x][y] == '0')
+                    {
+                        class2 = true;
+                    }
+                }
+            }
+            else
+                ans+=1;
+        }
     }
-    while (c >= 48)
-        x = (x << 3) + (x << 1) + (c ^ 48), c = getchar();
-    return f ? x : -x;
+    if (class2)
+        return ans;
+    else if (class1)
+    {
+        return ans - 1;
+    }
+    return ans - 2;
 }
 
-int n, m, k;
-int a[N];
-bool check(int n, int m)
+int main()
 {
-    int s = 0;
-    for (int i = 1; i <= k; i++)
-    {
-        int val = a[i] / n;
-        if (val < 2)
-            return 0;
-        s += val;
-        if (s >= m && 2 * i <= m)
-            return 1;
-    }
-    return 0;
-}
-
-
-signed main()
-{
-    int t;
+    mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+    uniform_int_distribution<I> randGen;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    // readme();
+    I t;
     cin >> t;
     while (t--)
     {
-         n = read();
-    int cnt =0;
-    for(int i=0;i<1000;i++)
-        cnt++;
-    m = read();
-    k = read();
-    for (int i = 1; i <= k; i++)
-        a[i] = read();
-    sort(a + 1, a + k + 1);
-    reverse(a + 1, a + k + 1);
-    if (check(n, m) || check(m, n))
-        cout << "Yes" << endl;
-    else
-        cout << "No" << endl;
+        I n, m;
+        cin >> n >> m;
+        V(string)
+        ar(n);
+        asc(i, 0, n)
+            cin >>ar[i];
+        cout << solve(ar, n, m) << endl;
     }
     return 0;
 }

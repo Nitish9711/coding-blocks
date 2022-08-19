@@ -436,7 +436,7 @@ public:
     Pair()
     {
         branchSum = 0;
-        maxSum = 0;
+        maxSum = INT_MIN;
     }
 };
 
@@ -463,6 +463,23 @@ Pair maxSumPath(node *root)
     p.branchSum = max(left.branchSum, max(right.branchSum, 0)) + root->data;
     p.maxSum = max(left.maxSum, max(right.maxSum, current_ans_through_root));
     return p;
+}
+int currentPathSum(node *currentPeak, int &maxSum)
+{
+    if (currentPeak == NULL)
+    {
+        return 0;
+    }
+
+    int maxPathSumLeft = max(currentPathSum(currentPeak->left, maxSum), 0);
+    int maxPathSumRight = max(currentPathSum(currentPeak->right, maxSum), 0);
+
+    int currentSum = maxPathSumLeft + maxPathSumRight + (currentPeak->data);
+
+    // Updating the overall maximum sum 
+    maxSum = max(currentSum, maxSum);
+
+    return max(maxPathSumLeft, maxPathSumRight) + (currentPeak->data);
 }
 
 // shortest distance between 2 nodes

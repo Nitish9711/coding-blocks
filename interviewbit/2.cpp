@@ -1,38 +1,58 @@
-#include<bits/stdc++.h>
-#define int long long
-#define N 100010
-using namespace std;
-inline int read(){
-int x=0,f=1; 
-char c=getchar();
-while(c<48)
-{
-    if(c=='-') f=0;c=getchar(); 
-}
-    while(c>=48) x=(x<<3)+(x<<1)+(c^48), c=getchar(); 
-    return f?x:-x;
-    }
-    
-    int n,m,k;
-    int a[N];
-    bool check(int n, int m){
-int s=0; for(int i=1;i<=k;i++){
-int val=a[i]/n; if(val<2) return 0; s+=val;
-if(s>=m&&2*i<=m) return 1; 
-}return 0;
-}
-void solve(){
-n=read(); m=read();k=read() ;
-for(int i=1;i<=k; i++) a[i]=read();
-sort(a+1, a+k+1); reverse(a+1, a+k+1);
-if (check (n,m) || check (m,n)) cout<<"Yes"<<endl; else cout<<"No"<<endl;
-}
+#include <bits/stdc++.h> 
+
+using namespace std; 
+int dx[]={1,0,0,-1,1,-1,1,-1}; 
+int dy[]={0,-1,1,0,1,-1,-1,1};  
+
+void solve(){ 
+    int n,m; 
+    cin>>n>>m; 
+
+    vector<string> a(n); 
+    for(int i =0;i<n;i++){ 
+        cin>>a[i]; 
+    } 
+    bool b1 = false; 
+    bool b2 = false; 
+
+    int one = 0; 
 
 
+    for(int i =0;i<n;i++){ 
+        for(int j =0;j<m;j++){ 
+            if(a[i][j]=='0'){ 
+                b1=true; 
+                for(int k =0;k<8;k++){ 
+                    int nx = i+dx[k]; 
+                    int ny = j+dy[k]; 
 
-signed main(){
-   int t;
-   cin>>t;
-   while(t--) solve();
-   return 0;
+                    if(nx<n && nx>=0 && ny>=0 && ny<m && a[nx][ny]=='0'){ 
+                        b2=true; 
+                    } 
+                } 
+            }else{ 
+                one++; 
+            } 
+        } 
+    } 
+
+    if(b2){ 
+        cout<<one<<endl; 
+    }else if(b1){ 
+        cout<<one-1<<endl; 
+    }else{ 
+        cout<<one-2<<endl; 
+    } 
+
+}  
+int main(){ 
+
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL); 
+    int t=1; 
+    cin>>t; 
+
+    while(t--){  
+        solve(); 
+    } 
 }
