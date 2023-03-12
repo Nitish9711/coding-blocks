@@ -1,0 +1,31 @@
+father(john, mike).
+father(john, sara).
+mother(kate, mike).
+mother(kate, sara).
+father(mike, ann).
+mother(mary, ann).
+
+parent(X,Y) :- father(X,Y).
+parent(X,Y) :- mother(X,Y).
+
+sibling(X,Y) :- parent(Z,X), parent(Z,Y), X \= Y.
+
+grandparent(X,Y) :- parent(X,Z), parent(Z,Y).
+
+An example of a program written in a logical programming language is a Prolog 
+program that defines a family tree. Here is an example:
+In this program, the first four statements define the relationships
+ between different family members. The parent rule uses the father and mother facts to define a relationship between a parent and child. The sibling rule defines a relationship between siblings based on the parent rule. The grandparent rule defines a relationship between a grandparent and grandchild based on the parent rule.
+
+Using these rules, we can query the program to answer questions
+ about the family tree. For example, we can ask:
+
+ ?- sibling(mike, sara).
+Yes
+
+?- grandparent(john, ann).
+Yes
+
+
+In the first query, we are asking if mike and sara are siblings, and the program returns Yes because they share the same parent. In the second query, we are asking if john is a grandparent of ann, and the program returns
+ Yes because john is the parent of mike, who is the parent of ann.

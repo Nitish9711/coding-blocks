@@ -62,7 +62,7 @@ class Graph{
 int main()
 {
     ReadCP();
-    Graph<int> g;
+    Graph<int> g(5);
     g.addEdge(0, 1);
     g.addEdge(0,3);
     g.addEdge(3, 2);
