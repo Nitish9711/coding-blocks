@@ -56,15 +56,39 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    readme();
+    // readme();
     I t;
     cin >> t;
     while (t--)
     {
-        I a, b;
-        cin>>a>>b;
-
+        I n;
+        cin>>n;
+        V(I)br(n-1);
+        asc(i, 0, n-1)
+            cin>>br[i];
         
+        V(I)ar;
+        bool flag = false;
+        for(I i =0;i<n-2;i++){
+            if(!flag && br[i] < br[i+1]){
+                 flag = true;
+                    ar.push_back(br[i]);
+                    ar.push_back(0);
+            }
+            else{
+                ar.push_back(br[i]);
+            }
+        }
+        ar.push_back(br[n-2]);
+        if(ar.size() != n)
+            ar.push_back(0);
+        for(I i =0;i<n;i++)
+        {
+            if(ar[i]  )
+        }
+        for(auto x: ar)
+            cout<<x<<" ";
+        cout<<endl;
     }
     return 0;
 }
